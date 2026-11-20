@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.CircularProgressIndicator // Brief You
 import androidx.compose.material3.LoadingIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -21,6 +22,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.foundation.shape.CircleShape // Brief You
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -33,6 +35,8 @@ import androidx.compose.ui.util.fastCoerceAtMost
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import me.ash.reader.brief.ui.style.BriefStyle // Brief You
+import me.ash.reader.brief.ui.style.DesignStyle // Brief You
 import me.ash.reader.ui.page.home.reading.PullToLoadDefaults
 import me.ash.reader.ui.page.home.reading.PullToLoadState
 
@@ -123,6 +127,8 @@ fun BoxScope.PullToSyncIndicator(
 
 
     val fraction by remember { derivedStateOf { animateOffsetFraction.value } }
+    // Brief You: Classic Material 3 gets the plain round indicator, Expressive keeps the turning shape.
+    val classic = BriefStyle.design == DesignStyle.Classic
 
 
     Surface(
@@ -142,8 +148,11 @@ fun BoxScope.PullToSyncIndicator(
                 this.scaleY = animateScale.value
             }
             .size(48.dp),
-        color = MaterialTheme.colorScheme.primaryFixedDim,
-        shape = MaterialTheme.shapes.extraLarge) {
+        color = if (classic) MaterialTheme.colorScheme.surfaceContainerHigh // Brief You
+                else MaterialTheme.colorScheme.primaryFixedDim,
+        shape = if (classic) CircleShape else MaterialTheme.shapes.extraLarge, // Brief You
+        shadowElevation = if (classic) 6.dp else 0.dp, // Brief You
+    ) {
         Box(
             modifier = Modifier, contentAlignment = Alignment.Center
         ) {
@@ -152,14 +161,27 @@ fun BoxScope.PullToSyncIndicator(
                 LaunchedEffect(Unit) {
                     scale.animateTo(1.2f, animationSpec = scaleSpec)
                 }
-                LoadingIndicator(
+                if (classic) { // Brief You
+                    CircularProgressIndicator(
+                        color = MaterialTheme.colorScheme.primary,
+                        strokeWidth = 3.dp,
+                        modifier = Modifier.size(26.dp),
+                    )
+                } else LoadingIndicator(
                     color = MaterialTheme.colorScheme.onPrimaryFixedVariant,
                     modifier = Modifier
                         .size(38.dp)
                         .scale(scale.value)
                 )
             } else {
-                LoadingIndicator(
+                if (classic) { // Brief You
+                    CircularProgressIndicator(
+                        progress = { fraction.coerceIn(0f, 1f) },
+                        color = MaterialTheme.colorScheme.primary,
+                        strokeWidth = 3.dp,
+                        modifier = Modifier.size(26.dp),
+                    )
+                } else LoadingIndicator(
                     progress = { fraction },
                     color = MaterialTheme.colorScheme.onPrimaryFixedVariant,
                     modifier = Modifier.size(34.dp)

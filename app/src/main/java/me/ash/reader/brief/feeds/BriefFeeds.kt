@@ -14,6 +14,8 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import me.ash.reader.brief.ui.style.BriefStyle
+import me.ash.reader.brief.ui.style.DesignStyle
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
 import androidx.compose.material3.pulltorefresh.PullToRefreshState
 import androidx.compose.runtime.Composable
@@ -145,13 +147,21 @@ fun BriefFeedsPages(
         state = state,
         isRefreshing = isRefreshing,
         onRefresh = onRefresh,
-        // Material 3 Expressive shape-morphing refresh indicator.
+        // Material 3 Expressive shape-morphing refresh indicator; Classic gets the plain round one.
         indicator = {
-            PullToRefreshDefaults.LoadingIndicator(
-                state = state,
-                isRefreshing = isRefreshing,
-                modifier = Modifier.align(Alignment.TopCenter),
-            )
+            if (BriefStyle.design == DesignStyle.Classic) {
+                PullToRefreshDefaults.Indicator(
+                    state = state,
+                    isRefreshing = isRefreshing,
+                    modifier = Modifier.align(Alignment.TopCenter),
+                )
+            } else {
+                PullToRefreshDefaults.LoadingIndicator(
+                    state = state,
+                    isRefreshing = isRefreshing,
+                    modifier = Modifier.align(Alignment.TopCenter),
+                )
+            }
         },
     ) {
         val density = androidx.compose.ui.platform.LocalDensity.current
