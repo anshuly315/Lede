@@ -79,27 +79,27 @@ fun BriefSlider(
     steps: Int = 0,
     onValueChangeFinished: (() -> Unit)? = null,
 ) {
+    val state = androidx.compose.runtime.remember(steps, valueRange) { androidx.compose.material3.SliderState(value, steps, valueRange) }
+    state.value = value
     if (me.ash.reader.brief.ui.style.BriefStyle.design == me.ash.reader.brief.ui.style.DesignStyle.Classic) {
         // Classic: a thin straight line with a small round handle, like Smart RSS.
         val active = androidx.compose.material3.MaterialTheme.colorScheme.primary
         val inactive = androidx.compose.material3.MaterialTheme.colorScheme.outlineVariant
         androidx.compose.material3.Slider(
-            value = value,
+            state = state,
             onValueChange = onValueChange,
             modifier = modifier,
-            valueRange = valueRange,
-            steps = steps,
             onValueChangeFinished = onValueChangeFinished,
-            thumb = {
+            thumb = { _: androidx.compose.material3.SliderState ->
                 androidx.compose.foundation.layout.Box(
                     Modifier
                         .size(14.dp)
                         .background(active, CircleShape)
                 )
             },
-            track = { sliderState ->
-                val span = (sliderState.valueRange.endInclusive - sliderState.valueRange.start).coerceAtLeast(0.0001f)
-                val fraction = ((sliderState.value - sliderState.valueRange.start) / span).coerceIn(0f, 1f)
+            track = { sliderState: androidx.compose.material3.SliderState ->
+                val span = (valueRange.endInclusive - valueRange.start).coerceAtLeast(0.0001f)
+                val fraction = ((sliderState.value - valueRange.start) / span).coerceIn(0f, 1f)
                 androidx.compose.foundation.layout.Box(
                     Modifier
                         .fillMaxWidth()
@@ -117,8 +117,6 @@ fun BriefSlider(
         )
         return
     }
-    val state = androidx.compose.runtime.remember(steps, valueRange) { androidx.compose.material3.SliderState(value, steps, valueRange) }
-    state.value = value
     androidx.compose.material3.Slider(
         state = state,
         onValueChange = onValueChange,
