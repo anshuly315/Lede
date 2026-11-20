@@ -295,6 +295,7 @@ fun ReadingStylePage(
                 text = it.toDesc(context),
                 style = TextStyle(fontFamily = it.asFontFamily(context)),
                 selected = it == fonts,
+                desc = it.tagline(), // Brief You
             ) {
                 if (it.value == ReadingFontsPreference.External.value) {
                     launcher.launch(arrayOf(MimeType.FONT))

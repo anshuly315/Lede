@@ -39,7 +39,7 @@ fun RadioDialog(
     me.ash.reader.brief.ui.ChoiceSheet( // Brief You
         title = title, // Brief You
         hint = description, // Brief You
-        choices = options.map { me.ash.reader.brief.ui.Choice(it.text, it.selected, it.style, it.onClick) }, // Brief You
+        choices = options.map { me.ash.reader.brief.ui.Choice(it.text, it.selected, it.style, it.desc, it.onClick) }, // Brief You
         onDismiss = onDismissRequest, // Brief You
     ) // Brief You
 }
@@ -49,5 +49,6 @@ data class RadioDialogOption(
     val text: String = "",
     val style: TextStyle? = null,
     val selected: Boolean = false,
+    val desc: String? = null, // Brief You: a small line under the choice
     val onClick: () -> Unit = {},
 )

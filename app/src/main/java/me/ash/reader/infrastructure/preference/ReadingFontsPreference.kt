@@ -78,6 +78,25 @@ sealed class ReadingFontsPreference(val value: Int) : Preference() {
             Lexend -> "Lexend" // Brief You
         }
 
+    // Brief You: a few words about each font, shown under its name in the font list.
+    fun tagline(): String? =
+        when (this) {
+            GoogleSans -> "Round and friendly, the app's own look"
+            Literata -> "Made for long reading, easy on the eyes"
+            Lora -> "A warm serif for long reads"
+            SourceSerif -> "A clean serif, sharp at small sizes"
+            Newsreader -> "A serif made for reading news"
+            Vollkorn -> "A sturdy, bookish serif"
+            Lexend -> "Designed to make reading easier"
+            Atkinson -> "Very clear letters, good for low vision"
+            Inter -> "Neutral and crisp"
+            Jost -> "Geometric and elegant"
+            Poppins -> "Round, bold and geometric"
+            System -> "Your phone's own font"
+            External -> "A font file you choose"
+            else -> null
+        }
+
     fun asFontFamily(context: Context): FontFamily =
         when (this) {
             GoogleSans -> GoogleSansReadingFontFamily // Brief You: the half-rounded reading cut

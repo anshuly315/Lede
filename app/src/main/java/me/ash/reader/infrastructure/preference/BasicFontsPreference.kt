@@ -59,6 +59,21 @@ sealed class BasicFontsPreference(val value: Int) : Preference() {
             NunitoSans -> "Nunito Sans" // Brief You
         }
 
+    // Brief You: a few words about each font, shown under its name in the font list.
+    fun tagline(): String? =
+        when (this) {
+            GoogleSans -> "Round and friendly, the app's own look"
+            Manrope -> "Modern and neat"
+            NunitoSans -> "Soft and rounded"
+            Atkinson -> "Very clear letters, good for low vision"
+            Inter -> "Neutral and crisp"
+            Jost -> "Geometric and elegant"
+            Poppins -> "Round, bold and geometric"
+            Vollkorn -> "A sturdy, bookish serif"
+            System -> "Your phone's own font"
+            External -> "A font file you choose"
+        }
+
     fun asFontFamily(context: Context): FontFamily =
         when (this) {
             System -> FontFamily.Default

@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 
 /** One choice of a [ChoiceSheet]. */
-class Choice(val text: String, val selected: Boolean, val style: TextStyle? = null, val onClick: () -> Unit)
+class Choice(val text: String, val selected: Boolean, val style: TextStyle? = null, val subtitle: String? = null, val onClick: () -> Unit)
 
 /**
  * A setting's choices as a sheet, like every other sheet: title (with a muted line when the
@@ -40,6 +40,7 @@ fun ChoiceSheet(title: String, hint: String?, choices: List<Choice>, onDismiss: 
                         title = choice.text,
                         selected = choice.selected,
                         titleStyle = choice.style,
+                        subtitle = choice.subtitle,
                         shape = groupShape(i, choices.size),
                         onClick = {
                             choice.onClick()
