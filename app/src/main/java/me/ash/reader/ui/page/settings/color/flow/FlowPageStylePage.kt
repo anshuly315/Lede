@@ -106,7 +106,7 @@ fun FlowPageStylePage(
                                 filterBarTonalElevation = filterBarTonalElevation.value.dp,
                             )
                         }
-                        Spacer(modifier = Modifier.height(12.dp))
+                        Spacer(modifier = Modifier.height(20.dp))
                     }
                 }
 

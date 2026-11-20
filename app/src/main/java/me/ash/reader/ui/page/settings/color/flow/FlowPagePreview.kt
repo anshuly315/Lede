@@ -115,6 +115,7 @@ fun FlowPagePreview(
 
         Spacer(modifier = Modifier.height(12.dp))
         BriefFilterBar( // Brief You: the preview shows Brief You's bar
+            modifier = Modifier.fillMaxWidth(),
             filter = filter,
             filterBarStyle = filterBarStyle,
             filterBarFilled = filterBarFilled,

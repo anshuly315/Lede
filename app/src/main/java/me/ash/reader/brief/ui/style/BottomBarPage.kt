@@ -97,6 +97,7 @@ fun BottomBarPage(onBack: () -> Unit) {
                                 .padding(vertical = 16.dp),
                         ) {
                             BriefFilterBar(
+                                modifier = Modifier.fillMaxWidth(),
                                 filter = previewFilter,
                                 filterBarStyle = style.value,
                                 filterBarFilled = true,

@@ -176,14 +176,16 @@ private fun LookSlider(
 fun BottomBarSections() {
     val context = LocalContext.current
     BriefLook.init(context)
-    val labels = true
+    val labels =
+        me.ash.reader.infrastructure.preference.LocalFlowFilterBarStyle.current.value !=
+            me.ash.reader.infrastructure.preference.FlowFilterBarStylePreference.Icon.value
     Subtitle(modifier = Modifier.padding(horizontal = 24.dp), text = stringResource(R.string.bottom_bar))
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
         LookSlider(
             icon = Icons.Outlined.CropSquare,
             label = stringResource(R.string.bottom_bar_thickness),
             value = BriefLook.barHeightDp(labels),
-            range = 48f..100f,
+            range = (if (labels) BriefLook.MIN_LABEL_BAR else 48f)..100f,
             steps = 25,
             onChange = { BriefLook.setBarHeight(context, it) },
         )

@@ -310,17 +310,47 @@ fun TextSettingsSheet(onDismiss: () -> Unit, onAllSettings: () -> Unit) {
 
             Spacer(Modifier.height(16.dp))
             me.ash.reader.brief.ui.SheetSection(stringResource(R.string.text_settings_font))
-            me.ash.reader.brief.ui.JoinedChoices(
-                count = fonts.size,
-                selected = fonts.indexOf(font),
-                onPick = { fonts[it].put(context, scope) },
-            ) { i, on ->
-                // Each name in its own font, so you can see what you'd get.
-                me.ash.reader.brief.ui.JoinedLabel(
-                    fonts[i].toDesc(context),
-                    on,
-                    androidx.compose.ui.text.TextStyle(fontFamily = families[i]),
-                )
+            // Brief You: two-column tiles, each name in its own font, instead of one cramped row.
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                fonts.indices.chunked(2).forEach { rowIdx ->
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        rowIdx.forEach { i ->
+                            val on = fonts[i] == font
+                            Surface(
+                                onClick = { fonts[i].put(context, scope) },
+                                shape = me.ash.reader.brief.ui.Corner.Tile,
+                                color =
+                                    if (on) MaterialTheme.colorScheme.secondaryContainer
+                                    else MaterialTheme.colorScheme.surfaceContainerHigh,
+                                modifier = Modifier.weight(1f).heightIn(min = 52.dp),
+                            ) {
+                                Row(
+                                    Modifier.padding(horizontal = 14.dp, vertical = 12.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                ) {
+                                    Text(
+                                        fonts[i].toDesc(context),
+                                        style =
+                                            MaterialTheme.typography.titleSmall.copy(
+                                                fontFamily = families[i]
+                                            ),
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                        modifier = Modifier.weight(1f),
+                                    )
+                                    if (on) {
+                                        Icon(
+                                            Icons.Rounded.Check,
+                                            contentDescription = null,
+                                            modifier = Modifier.size(18.dp),
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                        if (rowIdx.size == 1) Spacer(Modifier.weight(1f))
+                    }
+                }
             }
 
             Spacer(Modifier.height(16.dp))

@@ -145,7 +145,7 @@ fun ColorAndStylePage(
                         ) {
                             me.ash.reader.brief.ui.style.StylePreview(modifier = Modifier.padding(16.dp))
                         }
-                        Spacer(modifier = Modifier.height(12.dp))
+                        Spacer(modifier = Modifier.height(20.dp))
                     }
                 }
                 item {
