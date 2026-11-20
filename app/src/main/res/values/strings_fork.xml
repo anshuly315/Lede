@@ -667,6 +667,7 @@
     <string name="for_you_source_note">Stories from Google News for your topics. Only the topic words are sent.</string>
     <string name="for_you_not_interested">Not interested</string>
     <string name="for_you_hide_source">Hide %1$s</string>
+    <string name="for_you_opening">Opening in the app…</string>
     <string name="for_you_empty">Nothing found right now. Check your connection or add more topics.</string>
     <string name="for_you_no_topics">Add a topic to see stories.</string>
 </resources>

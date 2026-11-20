@@ -126,6 +126,45 @@ object ForYouFetcher {
         }.getOrDefault(emptyList())
     }
 
+    /**
+     * Google News links are redirects (news.google.com/rss/articles/...). This asks Google for the
+     * real address the same way its own page does, so the story can be opened in the app. Null when
+     * it can't be worked out (Google changed something, or no connection).
+     */
+    suspend fun resolve(link: String): String? = withContext(Dispatchers.IO) {
+        runCatching {
+            val id = Regex("articles/([^?/]+)").find(link)?.groupValues?.get(1) ?: return@runCatching null
+            if (!link.contains("news.google.com")) return@runCatching link
+            // 1. The article page carries a signature and timestamp for this story.
+            val page = (URL("https://news.google.com/rss/articles/$id").openConnection() as HttpURLConnection).run {
+                connectTimeout = 10_000; readTimeout = 15_000
+                setRequestProperty("User-Agent", "Mozilla/5.0 (Android) Lede")
+                try { inputStream.bufferedReader().readText() } finally { disconnect() }
+            }
+            val sg = Regex("data-n-a-sg=\"([^\"]+)\"").find(page)?.groupValues?.get(1) ?: return@runCatching null
+            val ts = Regex("data-n-a-ts=\"([^\"]+)\"").find(page)?.groupValues?.get(1) ?: return@runCatching null
+            // 2. The same call Google's page makes to turn it into the publisher's address.
+            val inner = "[\"garturlreq\",[[\"X\",\"X\",[\"X\",\"X\"],null,null,1,1,\"US:en\",null,1,null,null,null,null,null,0,1],\"X\",\"X\",1,[1,1,1],1,1,null,0,0,null,0],\"$id\",$ts,\"$sg\"]"
+            val outer = "[[[\"Fbv4je\"," + org.json.JSONObject.quote(inner) + ",null,\"generic\"]]]"
+            val body = "f.req=" + URLEncoder.encode(outer, "UTF-8")
+            val conn = (URL("https://news.google.com/_/DotsSplashUi/data/batchexecute").openConnection() as HttpURLConnection).apply {
+                requestMethod = "POST"
+                doOutput = true
+                connectTimeout = 10_000; readTimeout = 15_000
+                setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")
+                setRequestProperty("User-Agent", "Mozilla/5.0 (Android) Lede")
+            }
+            val response = try {
+                conn.outputStream.use { it.write(body.toByteArray()) }
+                conn.inputStream.bufferedReader().readText()
+            } finally { conn.disconnect() }
+            // The reply is ")]}'" then a JSON array whose first row holds, as text, [..., "<address>", ...].
+            val json = org.json.JSONArray(response.substringAfter("\n\n"))
+            val text = json.getJSONArray(0).getString(2)
+            org.json.JSONArray(text).getString(1).takeIf { it.startsWith("http") }
+        }.getOrNull()
+    }
+
     private fun parse(stream: java.io.InputStream, topic: String): List<ForYouItem> {
         val parser = Xml.newPullParser()
         parser.setInput(stream, null)
@@ -181,10 +220,22 @@ private fun ago(ms: Long): String {
     }
 }
 
+@dagger.hilt.android.lifecycle.HiltViewModel
+class ForYouViewModel @javax.inject.Inject constructor(
+    private val readLater: me.ash.reader.brief.readlater.ReadLater,
+) : androidx.lifecycle.ViewModel() {
+    /** Brings the story into the app (as an unstarred article in "Saved Articles") and returns where to find it; null if that wasn't possible. */
+    suspend fun bringIn(item: ForYouItem): me.ash.reader.brief.readlater.ReadLater.Saved? {
+        if (!readLater.canSave()) return null
+        val real = ForYouFetcher.resolve(item.link) ?: return null
+        return runCatching { readLater.save(real, item.title, star = false) }.getOrNull()?.takeIf { it.fetched }
+    }
+}
+
 @OptIn(ExperimentalLayoutApi::class)
 @Suppress("DEPRECATION")
 @Composable
-fun ForYouPage(onBack: () -> Unit) {
+fun ForYouPage(onBack: () -> Unit, viewModel: ForYouViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var topics by remember { mutableStateOf(ForYouStore.topics(context)) }
@@ -194,6 +245,28 @@ fun ForYouPage(onBack: () -> Unit) {
     var hiddenLinks by remember { mutableStateOf(ForYouStore.hiddenLinks(context)) }
     var hiddenSources by remember { mutableStateOf(ForYouStore.hiddenSources(context)) }
     var addVisible by remember { mutableStateOf(false) }
+    var opening by remember { mutableStateOf<String?>(null) }
+    val openStory: (ForYouItem) -> Unit = { item ->
+        if (opening == null) {
+            opening = item.link
+            scope.launch {
+                val saved = viewModel.bringIn(item)
+                opening = null
+                if (saved != null) {
+                    context.startActivity(
+                        Intent(context, me.ash.reader.infrastructure.android.MainActivity::class.java)
+                            .putExtra(me.ash.reader.ui.page.common.ExtraName.ARTICLE_ID, saved.articleId)
+                            .putExtra(me.ash.reader.ui.page.common.ExtraName.FEED_ID, saved.feedId)
+                    )
+                } else {
+                    // Couldn't bring it in: the browser still has it.
+                    runCatching {
+                        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(item.link)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+                    }
+                }
+            }
+        }
+    }
 
     LaunchedEffect(topics, reload) {
         loading = true
@@ -280,11 +353,7 @@ fun ForYouPage(onBack: () -> Unit) {
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 16.dp, vertical = 4.dp)
-                                .clickable {
-                                    runCatching {
-                                        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(item.link)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-                                    }
-                                },
+                                .clickable { openStory(item) },
                         ) {
                             Row(modifier = Modifier.padding(start = 16.dp, top = 12.dp, bottom = 12.dp, end = 4.dp), verticalAlignment = Alignment.Top) {
                                 Column(modifier = Modifier.weight(1f)) {
@@ -300,6 +369,14 @@ fun ForYouPage(onBack: () -> Unit) {
                                         overflow = TextOverflow.Ellipsis,
                                         modifier = Modifier.padding(top = 4.dp),
                                     )
+                                    if (opening == item.link) {
+                                        Text(
+                                            stringResource(R.string.for_you_opening),
+                                            style = MaterialTheme.typography.labelSmall,
+                                            color = MaterialTheme.colorScheme.tertiary,
+                                            modifier = Modifier.padding(top = 6.dp),
+                                        )
+                                    }
                                     Text(
                                         item.topic,
                                         style = MaterialTheme.typography.labelSmall,

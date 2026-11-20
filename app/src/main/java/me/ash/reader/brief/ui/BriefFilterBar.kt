@@ -82,7 +82,9 @@ fun BriefFilterBar(
     me.ash.reader.brief.ui.style.BriefLook.init(LocalView.current.context)
     val classic = me.ash.reader.brief.ui.style.BriefStyle.design == me.ash.reader.brief.ui.style.DesignStyle.Classic
 
-    val insideInsets = classic && me.ash.reader.brief.ui.style.BriefLook.barBottom == 0f
+    val compactBar = me.ash.reader.brief.ui.style.BriefLook.compactBar
+    // A compact bar floats (rounded, a little above the bottom), in Classic too.
+    val insideInsets = classic && !compactBar && me.ash.reader.brief.ui.style.BriefLook.barBottom == 0f
     // A fade to black behind the bar: clear at the top, fully black from the bottom of the bar down
     // to the screen edge, so nothing shows below the bar. On a light theme it fades into the page
     // color instead, since black would look harsh there.
@@ -111,15 +113,15 @@ fun BriefFilterBar(
                 })
                 // Brief You: a flat Classic bar with no gap below it draws itself down to the screen edge (insets inside it).
                 .then(if (insideInsets) Modifier else Modifier.windowInsetsPadding(NavigationBarDefaults.windowInsets))
-                .padding(start = me.ash.reader.brief.ui.style.BriefLook.barSideDp().dp, end = me.ash.reader.brief.ui.style.BriefLook.barSideDp().dp, top = if (classic) 0.dp else FILTER_BAR_TOP_PADDING, bottom = me.ash.reader.brief.ui.style.BriefLook.barBottom.dp)
+                .padding(start = me.ash.reader.brief.ui.style.BriefLook.barSideDp().dp, end = me.ash.reader.brief.ui.style.BriefLook.barSideDp().dp, top = if (classic && !compactBar) 0.dp else FILTER_BAR_TOP_PADDING, bottom = if (classic && compactBar) maxOf(me.ash.reader.brief.ui.style.BriefLook.barBottom, 8f).dp else me.ash.reader.brief.ui.style.BriefLook.barBottom.dp)
     ) {
     val barColor = if (classic) MaterialTheme.colorScheme.surfaceContainer else MaterialTheme.colorScheme.surfaceColorAtElevation(filterBarTonalElevation)
     // Brief You: glass when the switch is on (needs a glass source on the page behind it).
     me.ash.reader.brief.ui.glass.GlassOrSurface(
         color = barColor,
         contentColor = MaterialTheme.colorScheme.contentColorFor(barColor),
-        shape = RoundedCornerShape(if (classic) me.ash.reader.brief.ui.style.BriefLook.classicBarCorner().dp else 32.dp), // Brief You: same shape type for both designs
-        shadowElevation = if (classic) 0.dp else 6.dp,
+        shape = RoundedCornerShape(if (classic && !compactBar) me.ash.reader.brief.ui.style.BriefLook.classicBarCorner().dp else if (classic) 22.dp else 32.dp), // Brief You: same shape type for both designs
+        shadowElevation = if (classic && !compactBar) 0.dp else if (classic) 2.dp else 6.dp,
     ) {
         Row(
             modifier =
@@ -140,11 +142,31 @@ fun BriefFilterBar(
                         targetValue = if (selected) (if (glassBar) MaterialTheme.colorScheme.primary.copy(alpha = 0.30f) else indicatorColor) else Color.Transparent,
                         label = "compactChip",
                     )
+                    val chipInteraction = androidx.compose.runtime.remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
+                    val chipPressed by chipInteraction.collectIsPressedAsState()
+                    val wiggle = androidx.compose.runtime.remember { androidx.compose.animation.core.Animatable(0f) }
+                    androidx.compose.runtime.LaunchedEffect(selected) {
+                        if (selected) {
+                            wiggle.snapTo(1f)
+                            wiggle.animateTo(0f, androidx.compose.animation.core.spring(dampingRatio = 0.28f, stiffness = androidx.compose.animation.core.Spring.StiffnessMediumLow))
+                        }
+                    }
+                    val swell by androidx.compose.animation.core.animateFloatAsState(
+                        targetValue = if (chipPressed) 1.12f else 1f,
+                        animationSpec = androidx.compose.animation.core.spring(dampingRatio = 0.5f, stiffness = androidx.compose.animation.core.Spring.StiffnessMediumLow),
+                        label = "compactSwell",
+                    )
                     Row(
                         modifier = Modifier
-                            .clip(if (classic) RoundedCornerShape(8.dp) else RoundedCornerShape(50))
-                            .background(chip)
-                            .selectable(selected = selected, role = androidx.compose.ui.semantics.Role.Tab) {
+                            .graphicsLayer {
+                                val w = wiggle.value
+                                rotationZ = 4f * w
+                                scaleX = (1f + 0.08f * w) * swell
+                                scaleY = (1f + 0.08f * w) * swell
+                            }
+                            .clip(RoundedCornerShape(if (classic) 16.dp else 50.dp))
+                            .background(if (!selected && chipPressed) (if (glassBar) MaterialTheme.colorScheme.primary.copy(alpha = 0.18f) else indicatorColor.copy(alpha = 0.5f)) else chip)
+                            .selectable(selected = selected, interactionSource = chipInteraction, indication = null, role = androidx.compose.ui.semantics.Role.Tab) {
                                 view.playSoundEffect(SoundEffectConstants.CLICK)
                                 filterOnClick(item)
                             }

@@ -68,7 +68,7 @@ constructor(
      * page can't be loaded (offline, blocked, or not a web page, like a PDF), the link is saved
      * anyway, titled [sharedTitle] when the sharing app gave one, so nothing shared is lost.
      */
-    suspend fun save(url: String, sharedTitle: String? = null): Saved =
+    suspend fun save(url: String, sharedTitle: String? = null, star: Boolean = true): Saved =
         withContext(ioDispatcher) {
             val account = accountService.getCurrentAccount()
             if (account.type.id != AccountType.Local.id) throw NotLocalAccount()
@@ -77,7 +77,7 @@ constructor(
 
             // Saved before: starred (again) and shown as it is.
             articleDao.queryArticlesByLinks(listOf(url), feed.id, accountId).firstOrNull()?.let {
-                if (!it.isStarred) articleDao.update(it.copy(isStarred = true))
+                if (star && !it.isStarred) articleDao.update(it.copy(isStarred = true))
                 return@withContext Saved(
                     articleId = it.id,
                     feedId = feed.id,
@@ -103,7 +103,7 @@ constructor(
                         }
                     }
                     .getOrNull()
-                    ?: return@withContext saveLinkOnly(url, sharedTitle, accountId, feed)
+                    ?: return@withContext saveLinkOnly(url, sharedTitle, accountId, feed, star)
             val page = Jsoup.parse(html, url)
             val title = meta(page, "og:title") ?: page.title().takeIf { it.isNotBlank() } ?: url
             val description = meta(page, "og:description") ?: meta(page, "description")
@@ -129,7 +129,7 @@ constructor(
                     img = image,
                     link = url,
                     isUnread = true,
-                    isStarred = true,
+                    isStarred = star,
                     updateAt = now,
                 )
             articleDao.insert(article)
@@ -145,7 +145,7 @@ constructor(
         }
 
     /** Saves only the link (the page couldn't be loaded): open it later to read it. */
-    private suspend fun saveLinkOnly(url: String, sharedTitle: String?, accountId: Int, feed: Feed): Saved {
+    private suspend fun saveLinkOnly(url: String, sharedTitle: String?, accountId: Int, feed: Feed, star: Boolean = true): Saved {
         val title =
             sharedTitle?.trim()?.takeIf { it.isNotEmpty() && it != url }
                 ?: runCatching { java.net.URI(url).let { it.host.removePrefix("www.") + it.path.trimEnd('/') } }.getOrNull()
@@ -162,7 +162,7 @@ constructor(
                 shortDescription = url,
                 link = url,
                 isUnread = true,
-                isStarred = true,
+                isStarred = star,
                 updateAt = now,
             )
         articleDao.insert(article)
