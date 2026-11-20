@@ -58,16 +58,19 @@ fun glassActive(): Boolean {
 fun rememberGlassSource(reading: Boolean = false): Modifier {
     BriefGlass.init(LocalContext.current)
     // The article page only gets glass if its switch is on (it can flicker there).
-    return if (reading && !BriefGlass.readingGlass) Modifier else Modifier.glassSource()
+    // Brief You: the article is a web view, and drawing a web view a second time into the glass layer
+    // (while it scrolls) is what made it blink blank. The article's glass therefore sits over the plain
+    // page colour and the web view is drawn once, as normal.
+    return if (reading && !BriefGlass.readingGlass) Modifier else Modifier.glassSource(recordContent = !reading)
 }
 
 @Composable
-fun Modifier.glassSource(): Modifier {
+fun Modifier.glassSource(recordContent: Boolean = true): Modifier {
     if (!glassActive()) return this
     val background = MaterialTheme.colorScheme.surface
     val backdrop = rememberLayerBackdrop {
         drawRect(background)
-        drawContent()
+        if (recordContent) drawContent()
     }
     DisposableEffect(backdrop) {
         GlassHost.backdrop = backdrop

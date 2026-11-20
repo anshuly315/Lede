@@ -151,8 +151,8 @@ fun ArticleItem(
     val articleListReadIndicator = LocalFlowArticleListReadIndicator.current
     // Brief You: view mode, density, picture size and corners (Flow page settings).
     me.ash.reader.brief.ui.style.BriefLook.init(androidx.compose.ui.platform.LocalContext.current) // Brief You
-    val lookCards = me.ash.reader.brief.ui.style.BriefLook.mode == me.ash.reader.brief.ui.style.ListMode.Cards // Brief You
-    val lookMagazine = me.ash.reader.brief.ui.style.BriefLook.mode == me.ash.reader.brief.ui.style.ListMode.Magazine // Brief You
+    val lookCards = me.ash.reader.brief.ui.style.BriefLook.mode == me.ash.reader.brief.ui.style.ListMode.Cards && me.ash.reader.brief.ui.style.BriefStyle.design != me.ash.reader.brief.ui.style.DesignStyle.Classic // Brief You: no cards in Classic
+    val lookMagazine = me.ash.reader.brief.ui.style.BriefLook.mode == me.ash.reader.brief.ui.style.ListMode.Magazine || (me.ash.reader.brief.ui.style.BriefLook.mode == me.ash.reader.brief.ui.style.ListMode.Cards && me.ash.reader.brief.ui.style.BriefStyle.design == me.ash.reader.brief.ui.style.DesignStyle.Classic) // Brief You
     val lookCorner = me.ash.reader.brief.ui.style.BriefLook.corner.dp // Brief You
     val lookImage = me.ash.reader.brief.ui.style.BriefLook.imageSize.dp // Brief You
     val lookCompact = me.ash.reader.brief.ui.style.BriefLook.density == me.ash.reader.brief.ui.style.ListDensity.Compact // Brief You

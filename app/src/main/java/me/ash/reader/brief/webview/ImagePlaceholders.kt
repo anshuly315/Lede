@@ -26,11 +26,15 @@ object ImagePlaceholders {
 
     /** The last styles made, by their two colours: the reading page asks again on every redraw. */
     private var lastCss: Triple<Int, Int, String>? = null
+    private var lastClassic = false // Brief You
 
     /** The styles, in the page's colours: the box's tonal colour and the indicator's. */
     fun css(boxColor: Int, indicatorColor: Int): String {
         // Building the animated indicator takes a few milliseconds, too long to repeat while the
         // article opens; it only changes with the colours.
+        val classic = me.ash.reader.brief.ui.style.BriefStyle.design == me.ash.reader.brief.ui.style.DesignStyle.Classic // Brief You
+        if (classic != lastClassic) lastCss = null
+        lastClassic = classic
         lastCss?.let { (box, indicator, css) ->
             if (box == boxColor && indicator == indicatorColor) return css
         }
@@ -220,6 +224,13 @@ img.brief-center {
             "dur='${fmt(n * 0.65, 2)}s' repeatCount='indefinite' calcMode='spline' " +
                 "keyTimes='$keyTimes' keySplines='$keySplines'"
         val hex = "%06X".format(argb and 0xFFFFFF)
+        // Brief You: Classic Material 3 has no shape-changing indicator: a plain turning ring.
+        if (lastClassic) {
+            val ring = "<circle cx='22' cy='22' r='16' fill='none' stroke='%23$hex' stroke-width='4' stroke-linecap='round' stroke-dasharray='70 31'"
+            return if (!animated) "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'>$ring/></svg>"
+            else "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'>$ring>" +
+                "<animateTransform attributeName='transform' type='rotate' from='0 22 22' to='360 22 22' dur='1.1s' repeatCount='indefinite'/></circle></svg>"
+        }
         if (!animated) {
             return "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'>" +
                 "<path fill='%23$hex' d='${paths[0]}'/></svg>"

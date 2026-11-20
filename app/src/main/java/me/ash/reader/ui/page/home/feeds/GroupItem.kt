@@ -15,6 +15,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,10 +48,15 @@ fun GroupItem(
 ) {
     val view = LocalView.current
 
+    // Brief You: no ripple box on a pressed group (it drew a translucent border); the tile tints instead.
+    val pressSource = androidx.compose.runtime.remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
+    val groupPressed by pressSource.collectIsPressedAsState()
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .combinedClickable(
+                interactionSource = pressSource,
+                indication = null,
                 onClick = {
                     groupOnClick()
                 },
@@ -58,6 +66,7 @@ fun GroupItem(
                 }
             )
             .background(if (me.ash.reader.brief.ui.style.BriefStyle.design == me.ash.reader.brief.ui.style.DesignStyle.Classic) androidx.compose.ui.graphics.Color.Transparent else MaterialTheme.colorScheme.surfaceContainerHigh) // Brief You: the group's row in the joined list (plain in Classic)
+            .drawBehind { if (groupPressed) drawRect(androidx.compose.ui.graphics.Color.Gray.copy(alpha = 0.14f)) } // Brief You
             .padding(vertical = 12.dp) // Brief You: was 22 above and below
     ) {
         Row(

@@ -12,6 +12,14 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
+import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.padding
+import com.mikepenz.aboutlibraries.Libs
+import com.mikepenz.aboutlibraries.util.withContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -54,13 +62,30 @@ fun LicenseListPage(
             }
         },
         content = {
+            // Brief You: the licence list is read inside a guard: if the data isn't in the app, the page
+            // says so and links to the licences online, instead of crashing.
+            val libs by produceState<Result<Libs>?>(null) {
+                value = withContext(Dispatchers.IO) { runCatching { Libs.Builder().withContext(context).build() } }
+            }
+            val loaded = libs
             Column {
-                LibrariesContainer(
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = WindowInsets(0, 0, 0, 24)
-                        .add(WindowInsets.navigationBars)
-                        .asPaddingValues(),
-                )
+                if (loaded == null) {
+                    // loading
+                } else if (loaded.isSuccess && loaded.getOrThrow().libraries.isNotEmpty()) {
+                    LibrariesContainer(
+                        libraries = loaded.getOrThrow(),
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = WindowInsets(0, 0, 0, 24)
+                            .add(WindowInsets.navigationBars)
+                            .asPaddingValues(),
+                    )
+                } else {
+                    Text(
+                        text = "The licence list could not be loaded. The licences are in the project on GitHub.",
+                        modifier = Modifier.padding(24.dp),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
             }
         },
     )

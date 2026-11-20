@@ -89,6 +89,23 @@ fun rememberBriefFeedsPager(filterState: FilterState, feedsViewModel: FeedsViewM
             }
         }
     }
+    // Brief You: safety net. If the bar says one filter and the pager rests on another page (a
+    // swipe that was cut short, a filter changed elsewhere), a tap on the bar's selected tab changes
+    // nothing and the screen looked stuck. Whenever the pager comes to rest, put it on the filter's page.
+    val latestPage by rememberUpdatedState(currentPage)
+    LaunchedEffect(pagerState) {
+        snapshotFlow { pagerState.isScrollInProgress }
+            .collect { moving ->
+                if (!moving && !slidingToPage && pagerState.currentPage != latestPage) {
+                    slidingToPage = true
+                    try {
+                        pagerState.animateScrollToPage(latestPage, animationSpec = pageSpec)
+                    } finally {
+                        slidingToPage = false
+                    }
+                }
+            }
+    }
     // Swiping: the filter follows the page as soon as you pass the middle, so the new page has its
     // own data by the time it settles. A tick marks the change, like a segmented control.
     LaunchedEffect(pagerState) {

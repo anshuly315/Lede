@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Brief You: AboutLibraries finds its licence list by name at run time, so the resource shrinker
      must not remove it (without this the Open source licences page crashes). -->
-<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@raw/aboutlibraries" />
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:shrinkMode="lenient"
+    tools:keep="@raw/aboutlibraries*,@raw/aboutlibraries" />
