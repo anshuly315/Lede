@@ -74,7 +74,7 @@ import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.Pause
 import androidx.compose.material.icons.rounded.SkipNext
 import androidx.compose.material.icons.rounded.Star
-import androidx.compose.material3.Button
+import me.ash.reader.brief.ui.Button // Brief You
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.CircularWavyProgressIndicator
@@ -88,7 +88,7 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LinearWavyProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.TextButton
+import me.ash.reader.brief.ui.TextButton // Brief You
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.material.icons.rounded.ExpandLess
@@ -187,7 +187,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.FilledTonalButton
+import me.ash.reader.brief.ui.FilledTonalButton // Brief You
 /** How long a finger must stay still on a card before the long-press glow starts. */
 private const val CHARGE_DELAY_MS = 180L
 

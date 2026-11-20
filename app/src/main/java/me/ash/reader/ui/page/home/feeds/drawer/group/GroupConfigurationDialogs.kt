@@ -15,10 +15,10 @@ import androidx.compose.material.icons.automirrored.outlined.Article
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.OpenInBrowser
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
+import me.ash.reader.brief.ui.Button // Brief You
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
+import me.ash.reader.brief.ui.OutlinedButton // Brief You
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

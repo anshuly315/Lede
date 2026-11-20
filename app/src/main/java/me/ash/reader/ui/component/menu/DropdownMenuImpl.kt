@@ -141,6 +141,9 @@ fun DropdownMenuContent(
     }
 
     val isInspecting = LocalInspectionMode.current
+    // Brief You: Classic is flat with a thin outline; glass makes the menu see-through.
+    val classicMenu = me.ash.reader.brief.ui.style.BriefStyle.design == me.ash.reader.brief.ui.style.DesignStyle.Classic
+    val glassMenu = me.ash.reader.brief.ui.glass.glassActive()
 
     Surface(
         modifier = modifier.graphicsLayer {
@@ -156,8 +159,9 @@ fun DropdownMenuContent(
             transformOrigin = transformOriginState.value
         },
         shape = MaterialTheme.shapes.small,
-        color = MaterialTheme.colorScheme.surfaceContainerHigh,
-        shadowElevation = ElevationTokens.Level1.dp
+        color = MaterialTheme.colorScheme.surfaceContainerHigh.let { if (glassMenu) it.copy(alpha = 0.78f) else it }, // Brief You
+        border = if (classicMenu || glassMenu) androidx.compose.foundation.BorderStroke(0.5.dp, MaterialTheme.colorScheme.outlineVariant) else null, // Brief You
+        shadowElevation = if (classicMenu) 0.dp else ElevationTokens.Level1.dp // Brief You
     ) {
         Column(
             modifier = Modifier

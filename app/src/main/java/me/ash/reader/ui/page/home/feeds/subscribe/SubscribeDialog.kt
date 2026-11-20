@@ -17,7 +17,7 @@ import androidx.compose.material.icons.outlined.CreateNewFolder
 import androidx.compose.material.icons.rounded.RssFeed
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import me.ash.reader.brief.ui.TextButton // Brief You
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier

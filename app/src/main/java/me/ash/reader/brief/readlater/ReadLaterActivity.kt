@@ -32,8 +32,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.ErrorOutline
-import androidx.compose.material3.Button
-import androidx.compose.material3.FilledTonalButton
+import me.ash.reader.brief.ui.Button // Brief You
+import me.ash.reader.brief.ui.FilledTonalButton // Brief You
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LoadingIndicator
 import androidx.compose.material3.MaterialTheme

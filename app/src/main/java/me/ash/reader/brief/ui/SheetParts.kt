@@ -9,6 +9,7 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -78,6 +79,44 @@ fun BriefSlider(
     steps: Int = 0,
     onValueChangeFinished: (() -> Unit)? = null,
 ) {
+    if (me.ash.reader.brief.ui.style.BriefStyle.design == me.ash.reader.brief.ui.style.DesignStyle.Classic) {
+        // Classic: a thin straight line with a small round handle, like Smart RSS.
+        val active = androidx.compose.material3.MaterialTheme.colorScheme.primary
+        val inactive = androidx.compose.material3.MaterialTheme.colorScheme.outlineVariant
+        androidx.compose.material3.Slider(
+            value = value,
+            onValueChange = onValueChange,
+            modifier = modifier,
+            valueRange = valueRange,
+            steps = steps,
+            onValueChangeFinished = onValueChangeFinished,
+            thumb = {
+                androidx.compose.foundation.layout.Box(
+                    Modifier
+                        .size(14.dp)
+                        .background(active, CircleShape)
+                )
+            },
+            track = { sliderState ->
+                val span = (sliderState.valueRange.endInclusive - sliderState.valueRange.start).coerceAtLeast(0.0001f)
+                val fraction = ((sliderState.value - sliderState.valueRange.start) / span).coerceIn(0f, 1f)
+                androidx.compose.foundation.layout.Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .height(2.dp)
+                        .background(inactive)
+                ) {
+                    androidx.compose.foundation.layout.Box(
+                        Modifier
+                            .fillMaxWidth(fraction)
+                            .height(2.dp)
+                            .background(active)
+                    )
+                }
+            },
+        )
+        return
+    }
     val state = androidx.compose.runtime.remember(steps, valueRange) { androidx.compose.material3.SliderState(value, steps, valueRange) }
     state.value = value
     androidx.compose.material3.Slider(

@@ -28,8 +28,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.FilledTonalButton
-import androidx.compose.material3.OutlinedButton
+import me.ash.reader.brief.ui.FilledTonalButton // Brief You
+import me.ash.reader.brief.ui.OutlinedButton // Brief You
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth

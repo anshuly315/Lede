@@ -255,7 +255,7 @@ fun SheetActions(
     dangerSecond: Boolean = true,
 ) {
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        androidx.compose.material3.OutlinedButton(
+        me.ash.reader.brief.ui.OutlinedButton(
             shapes = androidx.compose.material3.ButtonDefaults.shapes(),
             onClick = first.second,
             modifier = Modifier.weight(1f),
@@ -264,7 +264,7 @@ fun SheetActions(
         }
         if (second != null) {
             val red = MaterialTheme.colorScheme.error
-            androidx.compose.material3.OutlinedButton(
+            me.ash.reader.brief.ui.OutlinedButton(
                 shapes = androidx.compose.material3.ButtonDefaults.shapes(),
                 onClick = second.second,
                 modifier = Modifier.weight(1f),

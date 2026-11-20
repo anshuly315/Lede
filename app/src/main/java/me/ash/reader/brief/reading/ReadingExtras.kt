@@ -58,7 +58,7 @@ import androidx.compose.material.icons.rounded.FormatLineSpacing
 import androidx.compose.material.icons.rounded.FormatSize
 import androidx.compose.material.icons.rounded.CropFree
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.FilledTonalButton
+import me.ash.reader.brief.ui.FilledTonalButton // Brief You
 import androidx.compose.ui.unit.sp
 import coil.size.Precision
 import coil.size.Scale

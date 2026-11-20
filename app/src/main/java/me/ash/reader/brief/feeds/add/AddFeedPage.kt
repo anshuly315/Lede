@@ -47,8 +47,8 @@ import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.SportsSoccer
 import androidx.compose.material.icons.rounded.UploadFile
 import androidx.compose.material3.AssistChip
-import androidx.compose.material3.Button
-import androidx.compose.material3.DropdownMenu
+import me.ash.reader.brief.ui.Button // Brief You
+import me.ash.reader.brief.ui.BriefDropdownMenu // Brief You
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.HorizontalDivider
@@ -56,7 +56,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearWavyProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
+import me.ash.reader.brief.ui.OutlinedButton // Brief You
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -402,7 +402,7 @@ private fun PickerChip(
         AssistChip(onClick = { open = true }, label = { Text(value, maxLines = 1) }, trailingIcon = {
             Icon(Icons.Rounded.ArrowDropDown, contentDescription = null, modifier = Modifier.size(18.dp))
         })
-        DropdownMenu(expanded = open, onDismissRequest = { open = false }) {
+        BriefDropdownMenu(expanded = open, onDismissRequest = { open = false }) {
             options.forEach { option ->
                 DropdownMenuItem(
                     text = { Text(label(option)) },
@@ -553,7 +553,7 @@ private fun GroupPicker(
                 Icon(Icons.Rounded.ArrowDropDown, contentDescription = null)
             }
         }
-        DropdownMenu(expanded = open, onDismissRequest = { open = false }) {
+        BriefDropdownMenu(expanded = open, onDismissRequest = { open = false }) {
             groups.forEach { g ->
                 DropdownMenuItem(
                     text = { Text(g.name) },

@@ -17,7 +17,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.MoreHoriz
-import androidx.compose.material3.DropdownMenu
+import me.ash.reader.brief.ui.BriefDropdownMenu // Brief You
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -142,7 +142,7 @@ fun ReaderImageViewer(
                 Spacer(Modifier.weight(1f))
 
                 Box(modifier = Modifier.wrapContentSize(Alignment.TopEnd)) {
-                    DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+                    BriefDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
                         DropdownMenuItem(
                             text = { Text(text = stringResource(id = R.string.save)) },
                             onClick = {

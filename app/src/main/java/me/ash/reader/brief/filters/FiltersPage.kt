@@ -13,7 +13,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.material3.toShape
 import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.Button
+import me.ash.reader.brief.ui.Button // Brief You
 import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.foundation.shape.CircleShape
@@ -43,7 +43,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.material3.TextButton
+import me.ash.reader.brief.ui.TextButton // Brief You
 import androidx.compose.ui.platform.LocalContext
 import me.ash.reader.brief.filters.FilterLogEntry
 import me.ash.reader.brief.filters.FilterReason

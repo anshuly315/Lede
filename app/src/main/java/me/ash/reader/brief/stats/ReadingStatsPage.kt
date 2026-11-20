@@ -42,7 +42,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import me.ash.reader.brief.ui.TextButton // Brief You
 import androidx.compose.material3.toShape
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable

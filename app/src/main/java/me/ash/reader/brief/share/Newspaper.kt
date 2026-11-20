@@ -40,9 +40,9 @@ import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.OutlinedButton
+import me.ash.reader.brief.ui.OutlinedButton // Brief You
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import me.ash.reader.brief.ui.TextButton // Brief You
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
@@ -464,7 +464,7 @@ private fun PressSheet(run: PressRun, onCancel: () -> Unit, onRetry: () -> Unit)
         if (run.failed != null) {
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 OutlinedButton(onClick = onCancel, modifier = Modifier.weight(1f)) { Text(stringResource(R.string.cancel)) }
-                androidx.compose.material3.Button(onClick = onRetry, modifier = Modifier.weight(1f)) {
+                me.ash.reader.brief.ui.Button(onClick = onRetry, modifier = Modifier.weight(1f)) {
                     Text(stringResource(R.string.newspaper_retry))
                 }
             }
