@@ -318,7 +318,7 @@ fun TextSettingsSheet(onDismiss: () -> Unit, onAllSettings: () -> Unit) {
                             val on = fonts[i] == font
                             Surface(
                                 onClick = { fonts[i].put(context, scope) },
-                                shape = me.ash.reader.brief.ui.Corner.Tile,
+                                shape = RoundedCornerShape(me.ash.reader.brief.ui.Corner.Tile),
                                 color =
                                     if (on) MaterialTheme.colorScheme.secondaryContainer
                                     else MaterialTheme.colorScheme.surfaceContainerHigh,

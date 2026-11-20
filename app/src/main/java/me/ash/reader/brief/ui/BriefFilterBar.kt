@@ -138,6 +138,7 @@ fun BriefFilterBar(
                 // Brief You: the small bar (like Capy Reader's): icons, and the name beside the selected one.
                 Filter.values.forEach { item ->
                     val selected = filter == item
+                    val itemName = item.toName()
                     val chip by androidx.compose.animation.animateColorAsState(
                         targetValue = if (selected) (if (glassBar) MaterialTheme.colorScheme.primary.copy(alpha = 0.30f) else indicatorColor) else Color.Transparent,
                         label = "compactChip",
@@ -146,7 +147,7 @@ fun BriefFilterBar(
                     val chipPressed by chipInteraction.collectIsPressedAsState()
                     // Diagnostic (Nightly log): did the touch reach this chip?
                     androidx.compose.runtime.LaunchedEffect(chipPressed) {
-                        if (chipPressed) me.ash.reader.brief.perf.PerfLog.action("Compact bar: touch on ${item.toName()}")
+                        if (chipPressed) me.ash.reader.brief.perf.PerfLog.action("Compact bar: touch on $itemName")
                     }
                     val wiggle = androidx.compose.runtime.remember { androidx.compose.animation.core.Animatable(0f) }
                     androidx.compose.runtime.LaunchedEffect(selected) {
@@ -172,7 +173,7 @@ fun BriefFilterBar(
                             .background(if (!selected && chipPressed) (if (glassBar) MaterialTheme.colorScheme.primary.copy(alpha = 0.18f) else indicatorColor.copy(alpha = 0.5f)) else chip)
                             .selectable(selected = selected, interactionSource = chipInteraction, indication = null, role = androidx.compose.ui.semantics.Role.Tab) {
                                 view.playSoundEffect(SoundEffectConstants.CLICK)
-                                me.ash.reader.brief.perf.PerfLog.action("Compact bar: tap on ${item.toName()}")
+                                me.ash.reader.brief.perf.PerfLog.action("Compact bar: tap on $itemName")
                                 filterOnClick(item)
                             }
                             .defaultMinSize(minWidth = 48.dp, minHeight = 40.dp)
