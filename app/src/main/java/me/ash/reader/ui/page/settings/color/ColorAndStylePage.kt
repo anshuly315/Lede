@@ -132,7 +132,7 @@ fun ColorAndStylePage(
                 }
                 // Brief You: the preview stays on screen while you scroll, so every change shows at once.
                 stickyHeader {
-                    Column(modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surface onLight MaterialTheme.colorScheme.inverseOnSurface)) {
+                    Column(modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surface)) {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()

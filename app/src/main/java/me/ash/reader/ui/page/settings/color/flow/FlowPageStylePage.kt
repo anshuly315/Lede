@@ -82,7 +82,7 @@ fun FlowPageStylePage(
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(MaterialTheme.colorScheme.surface onLight MaterialTheme.colorScheme.inverseOnSurface)
+                            .background(MaterialTheme.colorScheme.surface)
                     ) {
                         Row(
                             modifier = Modifier
