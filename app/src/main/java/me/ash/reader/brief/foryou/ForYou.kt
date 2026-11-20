@@ -345,14 +345,28 @@ fun ForYouPage(onBack: () -> Unit, viewModel: ForYouViewModel = androidx.hilt.li
                         )
                     }
                 } else {
+                    item {
+                        me.ash.reader.ui.component.base.Subtitle(
+                            modifier = Modifier.padding(horizontal = 24.dp, vertical = 4.dp),
+                            text = stringResource(R.string.for_you), // Brief You
+                        )
+                    }
                     items(shown, key = { it.link }) { item ->
                         var menu by remember { mutableStateOf(false) }
+                        // Brief You: follows the design style: plain rows in Classic, cards in Expressive,
+                        // a see-through tinted card with Glass.
+                        val classicStyle = me.ash.reader.brief.ui.style.BriefStyle.design == me.ash.reader.brief.ui.style.DesignStyle.Classic
+                        val glassStyle = me.ash.reader.brief.ui.glass.glassActive()
                         Surface(
-                            shape = RoundedCornerShape(Corner.Small),
-                            color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                            shape = RoundedCornerShape(if (classicStyle) 0.dp else if (glassStyle) 28.dp else Corner.Small),
+                            color = when {
+                                classicStyle -> androidx.compose.ui.graphics.Color.Transparent
+                                glassStyle -> MaterialTheme.colorScheme.primary.copy(alpha = 0.10f)
+                                else -> MaterialTheme.colorScheme.surfaceContainerHigh
+                            },
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(horizontal = 16.dp, vertical = 4.dp)
+                                .padding(horizontal = if (classicStyle) 0.dp else 16.dp, vertical = if (classicStyle) 0.dp else 4.dp)
                                 .clickable { openStory(item) },
                         ) {
                             Row(modifier = Modifier.padding(start = 16.dp, top = 12.dp, bottom = 12.dp, end = 4.dp), verticalAlignment = Alignment.Top) {

@@ -31,6 +31,7 @@ fun StyleOptionsSections() {
     SettingGroup {
         SchemeStyle.entries.forEach { option ->
             SettingItem(
+                autoIcon = false, // Brief You: a tick-mark choice
                 title = stringResource(option.title),
                 desc = stringResource(option.desc),
                 onClick = { BriefStyle.setScheme(context, option) },
@@ -46,6 +47,7 @@ fun StyleOptionsSections() {
     SettingGroup {
         ContrastLevel.entries.forEach { option ->
             SettingItem(
+                autoIcon = false, // Brief You: a tick-mark choice
                 title = stringResource(option.title),
                 onClick = { BriefStyle.setContrast(context, option) },
             ) {
@@ -60,6 +62,7 @@ fun StyleOptionsSections() {
     SettingGroup {
         DesignStyle.entries.forEach { option ->
             SettingItem(
+                autoIcon = false, // Brief You: a tick-mark choice
                 title = stringResource(option.title),
                 desc = stringResource(option.desc),
                 onClick = { BriefStyle.setDesign(context, option) },

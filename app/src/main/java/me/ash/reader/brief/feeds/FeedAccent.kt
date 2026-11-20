@@ -95,9 +95,6 @@ object FeedAccent {
                         } catch (e: CancellationException) {
                             throw e
                         } catch (e: Exception) {
-                            me.ash.reader.brief.perf.PerfLog.note(
-                                "feed colour not read (${iconKind(iconUrl)}): ${e.javaClass.simpleName} ${e.message?.take(60)}"
-                            ) // Nightly stutter log
                             return@withContext null // not read this time: nothing is saved
                         }
                     // Old icons' colours are never needed again; start over now and then rather
@@ -391,7 +388,6 @@ fun rememberFeedAccent(iconUrl: String?): Color? {
                 iconUrl?.takeIf { it.isNotBlank() }?.let {
                     FeedAccent.sourceColor(context, it)
                 }
-            me.ash.reader.brief.perf.PerfLog.note(if (value != null) "feed colour ready" else "feed colour: none") // Nightly stutter log
         }
     return remember(source, primary, dark) {
         source?.let { FeedAccent.themed(it, primary, dark) }

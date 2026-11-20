@@ -56,6 +56,7 @@ fun ListLookSections() {
         // Brief You: Classic Material 3 has no cards look, so the choice isn't offered there.
         ListMode.entries.filter { it != ListMode.Cards || BriefStyle.design != DesignStyle.Classic }.forEach { option ->
             SettingItem(
+                autoIcon = false, // Brief You: a tick-mark choice
                 title = stringResource(option.title),
                 desc = stringResource(option.desc),
                 onClick = { BriefLook.setMode(context, option) },
@@ -70,7 +71,7 @@ fun ListLookSections() {
     Subtitle(modifier = Modifier.padding(horizontal = 24.dp), text = stringResource(R.string.list_look_density))
     SettingGroup {
         ListDensity.entries.forEach { option ->
-            SettingItem(title = stringResource(option.title), onClick = { BriefLook.setDensity(context, option) }) {
+            SettingItem(autoIcon = false, title = stringResource(option.title), onClick = { BriefLook.setDensity(context, option) }) {
                 if (BriefLook.density == option) {
                     Icon(Icons.Outlined.Check, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
                 }

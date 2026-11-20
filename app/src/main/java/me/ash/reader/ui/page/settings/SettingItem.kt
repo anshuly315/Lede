@@ -53,6 +53,8 @@ fun SettingItem(
     titleColor: Color = Color.Unspecified,
     /** How many lines the description may take before it ends with "…". */
     descMaxLines: Int = 1,
+    /** Brief You: an icon is picked from the title when none is given (not for tick-mark choice rows). */
+    autoIcon: Boolean = true,
     onClick: () -> Unit,
     action: (@Composable () -> Unit)? = null,
 ) {
@@ -73,13 +75,10 @@ fun SettingItem(
                 .padding(if (inGroup) 20.dp else 24.dp, if (inGroup) 14.dp else 16.dp, 16.dp, if (inGroup) 14.dp else 16.dp), // Brief You: the card's padding
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if (icon != null) {
-                Icon(
-                    modifier = Modifier.padding(end = if (inGroup) 16.dp else 24.dp), // Brief You
-                    imageVector = icon,
-                    contentDescription = title,
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
+            // Brief You: the icon sits in a tile that follows the design style (Smart RSS-like rows)
+            val shownIcon = icon ?: if (iconPainter == null && inGroup && autoIcon) me.ash.reader.brief.ui.settingIconFor(title) else null
+            if (shownIcon != null) {
+                me.ash.reader.brief.ui.SettingIconTile(shownIcon, title, Modifier.padding(end = if (inGroup) 16.dp else 24.dp))
             } else {
                 iconPainter?.let {
                     Icon(

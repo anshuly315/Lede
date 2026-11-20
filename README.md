@@ -268,17 +268,19 @@ Add Feed is now one full page (this replaces the small address box; the found fe
 ## Design style and home
 
 - **Color & Style > Design style:** *Material Expressive* (the app's look so far: rounder shapes, a floating bottom bar) or *Classic Material 3* (smaller corners and a flat full-width bottom bar).
+- In **Classic**, loading placeholders (pictures in articles, pull to refresh) are plain turning rings, not shape-changing Expressive shapes.
+- **Settings rows** have an icon, in a tile that follows the style: a soft rounded tile in Expressive, a see-through round tile with Glass, a plain coloured icon in Classic. Section headers are bold. The For you page follows the same three styles.
 - **Glass** now also covers the feeds page's bottom bar (Starred / Unread / All), not just the reading bar.
 - **Settings > Interaction > Initial page** picks where the app opens: the *Feeds tree* (groups and feeds) or the *Article list* (your unread articles).
 - The colour style, contrast, design style and glass choices are now loaded before the first screen is drawn (before, the colour style only took effect after the Color & Style page had been opened once).
 
 ## Article list look
 
-Settings > Color & Style > Flow page now has: **Article view** (Text only, Magazine = a small picture beside the text as before, or Cards = a big picture above the title in a card), **Density** (Comfortable or Compact), and two sliders: **Picture size** and **Corner roundness** (the list changes as you move them, with a reset). Your choices are kept in their own file (`brief_look`).
+Settings > Color & Style > Flow page now has: **Article view** (Text only, Magazine = a small picture beside the text as before, or Cards = a big picture above the title in a card; Cards isn't offered in Classic Material 3, which has no cards look), **Density** (Comfortable or Compact), and two sliders: **Picture size** and **Corner roundness** (the list changes as you move them, with a reset). Your choices are kept in their own file (`brief_look`).
 
 ## Colour styles and glass
 
-Settings, Color & Style now has nine colour-scheme styles (Tonal spot, Fidelity, Neutral, Vibrant, Expressive, Content, Rainbow, Fruit salad, Monochrome), three contrast levels, and a **Glass effect** switch. With glass on (Android 13 or newer), the reading bar becomes a frosted see-through pill over the article; off, it is the normal accent pill. The glass drawing is ported from [SimpMusic](https://github.com/maxrave-dev/SimpMusic) (GPL-3.0) and uses Kyant's `backdrop` library.
+Settings, Color & Style now has nine colour-scheme styles (Tonal spot, Fidelity, Neutral, Vibrant, Expressive, Content, Rainbow, Fruit salad, Monochrome), three contrast levels, and a **Glass effect** switch. With glass on (Android 13 or newer), the reading bar becomes a frosted see-through pill over the article (frosted over the page colour, not the moving text, so it doesn't flicker); off, it is the normal accent pill. The glass drawing is ported from [SimpMusic](https://github.com/maxrave-dev/SimpMusic) (GPL-3.0) and uses Kyant's `backdrop` library.
 
 ## Building
 
