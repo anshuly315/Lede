@@ -27,6 +27,13 @@ sealed class BasicFontsPreference(val value: Int) : Preference() {
 
     object External : BasicFontsPreference(5)
 
+    // Brief You: the same extra fonts as for reading, for the whole app.
+    object Atkinson : BasicFontsPreference(8)
+    object Inter : BasicFontsPreference(9)
+    object Jost : BasicFontsPreference(10)
+    object Poppins : BasicFontsPreference(11)
+    object Vollkorn : BasicFontsPreference(12)
+
     override fun put(context: Context, scope: CoroutineScope) {
         scope.launch {
             context.dataStore.put(DataStoreKey.basicFonts, value)
@@ -41,6 +48,11 @@ sealed class BasicFontsPreference(val value: Int) : Preference() {
             System -> context.getString(R.string.system_default)
             GoogleSans -> context.getString(R.string.google_sans)
             External -> context.getString(R.string.external_fonts)
+            Atkinson -> "Atkinson Hyperlegible" // Brief You
+            Inter -> "Inter" // Brief You
+            Jost -> "Jost" // Brief You
+            Poppins -> "Poppins" // Brief You
+            Vollkorn -> "Vollkorn" // Brief You
         }
 
     fun asFontFamily(context: Context): FontFamily =
@@ -50,6 +62,11 @@ sealed class BasicFontsPreference(val value: Int) : Preference() {
             External ->
                 ExternalFonts.loadBasicTypography(context).displayLarge.fontFamily
                     ?: FontFamily.Default
+            Atkinson -> me.ash.reader.brief.ui.AtkinsonFontFamily // Brief You
+            Inter -> me.ash.reader.brief.ui.InterFontFamily // Brief You
+            Jost -> me.ash.reader.brief.ui.JostFontFamily // Brief You
+            Poppins -> me.ash.reader.brief.ui.PoppinsFontFamily // Brief You
+            Vollkorn -> me.ash.reader.brief.ui.VollkornFontFamily // Brief You
         }
 
     // Brief You: titles and headings a step heavier, as in Material 3 Expressive.
@@ -58,18 +75,24 @@ sealed class BasicFontsPreference(val value: Int) : Preference() {
             System -> SystemTypography
             GoogleSans -> SystemTypography.applyFontFamily(GoogleSansFontFamily)
             External -> ExternalFonts.loadBasicTypography(context)
+            else -> SystemTypography.applyFontFamily(asFontFamily(context)) // Brief You: the extra fonts
         }.emphasizeHeadings() // Brief You
 
     companion object {
 
         val default = GoogleSans
-        val values = listOf(GoogleSans, System, External)
+        val values = listOf(GoogleSans, Atkinson, Inter, Jost, Poppins, Vollkorn, System, External) // Brief You
 
         fun fromPreferences(preferences: Preferences): BasicFontsPreference =
             when (preferences[DataStoreKey.keys[basicFonts]?.key as Preferences.Key<Int>]) {
                 0 -> System
                 1 -> GoogleSans
                 5 -> External
+                8 -> Atkinson // Brief You
+                9 -> Inter // Brief You
+                10 -> Jost // Brief You
+                11 -> Poppins // Brief You
+                12 -> Vollkorn // Brief You
                 else -> default
             }
     }
