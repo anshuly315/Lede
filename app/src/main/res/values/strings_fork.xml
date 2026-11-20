@@ -673,4 +673,7 @@
     <string name="for_you_opening">Opening in the app…</string>
     <string name="for_you_empty">Nothing found right now. Check your connection or add more topics.</string>
     <string name="for_you_no_topics">Add a topic to see stories.</string>
+    <!-- Settings search -->
+    <string name="settings_search_hint">Search settings</string>
+    <string name="settings_search_empty">No settings found</string>
 </resources>

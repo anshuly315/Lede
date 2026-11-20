@@ -210,6 +210,7 @@ fun AppEntry(backStack: NavBackStack<NavKey>) {
                                 navigateToLanguages = { backStack.add(Route.Languages) },
                                 navigateToAiModel = { backStack.add(Route.AiModel) }, // Brief You
                                 navigateToFilters = { backStack.add(Route.Filters) }, // Brief You
+                                navigateToRoute = { backStack.add(it) }, // Brief You: from the settings search
                                 navigateToTroubleshooting = {
                                     backStack.add(Route.Troubleshooting)
                                 },

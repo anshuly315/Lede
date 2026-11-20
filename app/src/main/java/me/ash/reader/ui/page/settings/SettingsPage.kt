@@ -61,11 +61,13 @@ fun SettingsPage(
     navigateToFilters: () -> Unit,
     navigateToTroubleshooting: () -> Unit,
     navigateToTipsAndSupport: () -> Unit,
+    navigateToRoute: (me.ash.reader.ui.page.nav3.key.Route) -> Unit = {}, // Brief You: from the settings search
 ) {
     val context = LocalContext.current
     val newVersion = LocalNewVersionNumber.current
     val skipVersion = LocalSkipVersionNumber.current
     val currentVersion by remember { mutableStateOf(context.getCurrentVersion()) }
+    var searchQuery by androidx.compose.runtime.saveable.rememberSaveable { mutableStateOf("") } // Brief You
 
     RYScaffold(
         containerColor = MaterialTheme.colorScheme.surface onLight MaterialTheme.colorScheme.inverseOnSurface,
@@ -121,6 +123,11 @@ fun SettingsPage(
                         // )
                     }
                 }
+                // Brief You: search the settings; while something is typed, the matches replace the sections.
+                item { me.ash.reader.brief.search.SettingsSearchBar(searchQuery, { searchQuery = it }) } // Brief You
+                if (searchQuery.isNotBlank()) item { // Brief You
+                    me.ash.reader.brief.search.SettingsSearchResults(searchQuery, navigateToRoute) // Brief You
+                } else
                 // Brief You: three sections, each one joined card (was one long column).
                 item { // Brief You
                     me.ash.reader.ui.component.base.Subtitle(modifier = Modifier.padding(horizontal = 24.dp), text = stringResource(R.string.settings_section_reading)) // Brief You

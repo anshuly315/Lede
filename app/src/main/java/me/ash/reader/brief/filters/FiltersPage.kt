@@ -196,7 +196,7 @@ fun FiltersPage(onBack: () -> Unit, viewModel: FiltersViewModel = hiltViewModel(
         },
         content = {
             // One list: the header (title, tiles, tabs), then the chosen tab's part.
-            LazyColumn {
+            me.ash.reader.brief.search.SettingsLazyColumn { // Brief You: scrolls to a setting picked in the settings search
                 item {
                     DisplayText(text = stringResource(R.string.filters_settings), desc = "")
                     Spacer(Modifier.height(8.dp))

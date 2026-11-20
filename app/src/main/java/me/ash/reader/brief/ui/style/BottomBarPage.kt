@@ -79,7 +79,7 @@ fun BottomBarPage(onBack: () -> Unit) {
             )
         },
         content = {
-            LazyColumn {
+            me.ash.reader.brief.search.SettingsLazyColumn { // Brief You: scrolls to a setting picked in the settings search
                 item { DisplayText(text = stringResource(R.string.bottom_bar), desc = "") }
                 // The bar itself stays on screen while you scroll, so every change shows at once.
                 stickyHeader {

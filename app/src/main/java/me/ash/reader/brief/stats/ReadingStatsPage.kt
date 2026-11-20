@@ -204,7 +204,7 @@ fun ReadingStatsPage(onBack: () -> Unit) {
             )
         },
         content = {
-            LazyColumn {
+            me.ash.reader.brief.search.SettingsLazyColumn { // Brief You: scrolls to a setting picked in the settings search
                 item {
                     DisplayText(text = stringResource(R.string.stats_title), desc = "")
                     Spacer(Modifier.height(8.dp))

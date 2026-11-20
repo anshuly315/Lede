@@ -96,7 +96,7 @@ fun InteractionPage(
             )
         },
         content = {
-            LazyColumn {
+            me.ash.reader.brief.search.SettingsLazyColumn { // Brief You: scrolls to a setting picked in the settings search
                 item {
                     DisplayText(text = stringResource(R.string.interaction), desc = "")
                     Spacer(modifier = Modifier.height(16.dp))

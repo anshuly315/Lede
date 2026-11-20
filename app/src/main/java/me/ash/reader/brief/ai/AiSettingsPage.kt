@@ -129,7 +129,7 @@ fun AiSettingsPage(onBack: () -> Unit, viewModel: AiSettingsViewModel = hiltView
             )
         },
         content = {
-            LazyColumn {
+            me.ash.reader.brief.search.SettingsLazyColumn { // Brief You: scrolls to a setting picked in the settings search
                 item {
                     DisplayText(text = stringResource(R.string.ai_settings), desc = "")
                     Spacer(modifier = Modifier.height(8.dp))

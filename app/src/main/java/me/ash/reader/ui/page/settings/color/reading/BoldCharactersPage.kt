@@ -59,7 +59,7 @@ fun BoldCharactersPage(
             )
         },
         content = {
-            LazyColumn {
+            me.ash.reader.brief.search.SettingsLazyColumn { // Brief You: scrolls to a setting picked in the settings search
                 item {
                     DisplayText(text = stringResource(R.string.bold_characters), desc = "")
                 }

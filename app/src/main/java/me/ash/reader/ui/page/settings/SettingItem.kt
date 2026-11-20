@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import me.ash.reader.brief.search.searchHighlight // Brief You
 import me.ash.reader.ui.theme.palette.LocalTonalPalettes
 import me.ash.reader.ui.theme.palette.onDark
 
@@ -61,6 +62,7 @@ fun SettingItem(
 
     Surface(
         modifier = modifier
+            .searchHighlight(title) // Brief You: the setting picked in the settings search blinks
             .clickable(enabled = enabled, interactionSource = interactionSource) { onClick() }
             .alpha(if (enabled) 1f else 0.5f),
         color = Color.Unspecified
