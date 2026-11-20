@@ -287,6 +287,8 @@ Open the project in [Android Studio](https://developer.android.com/studio) and r
 
 The reading fonts Atkinson Hyperlegible, Inter, Jost, Poppins and Vollkorn, and the compact bottom bar and article list settings, come from [Capy Reader](https://github.com/jocmp/capyreader) by jocmp (GPL-3.0; the fonts are SIL Open Font License).
 
+The fonts Lora, Source Serif 4, Newsreader, Lexend, Manrope and Nunito Sans (reading and Basic fonts) come from [Google Fonts](https://fonts.google.com) under the SIL Open Font License 1.1. They are trimmed to Latin letters and weights 400 to 700 to keep the app small; other scripts use the phone's own font.
+
 The glass effect comes from [SimpMusic](https://github.com/maxrave-dev/SimpMusic) by maxrave-dev (GPL-3.0).
 
 Lede is built on [**Read You**](https://github.com/ReadYouApp/ReadYou) by [Ashinch](https://github.com/Ashinch) and its contributors. All credit for the original app goes to them. If you like the app, consider [supporting Read You](https://ash7.io/sponsor).

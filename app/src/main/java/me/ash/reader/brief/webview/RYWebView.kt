@@ -115,6 +115,14 @@ fun RYWebView(
             "/android_res/font/poppins.ttf"
         } else if (readingFonts is ReadingFontsPreference.Vollkorn) {
             "/android_res/font/vollkorn.ttf"
+        } else if (readingFonts is ReadingFontsPreference.Lora) {
+            "/android_res/font/lora.ttf"
+        } else if (readingFonts is ReadingFontsPreference.SourceSerif) {
+            "/android_res/font/source_serif_4.ttf"
+        } else if (readingFonts is ReadingFontsPreference.Newsreader) {
+            "/android_res/font/newsreader.ttf"
+        } else if (readingFonts is ReadingFontsPreference.Lexend) {
+            "/android_res/font/lexend.ttf"
         } else null
 
     // Made again only when a setting or colour changes, not on every redraw while the article

@@ -33,6 +33,8 @@ sealed class BasicFontsPreference(val value: Int) : Preference() {
     object Jost : BasicFontsPreference(10)
     object Poppins : BasicFontsPreference(11)
     object Vollkorn : BasicFontsPreference(12)
+    object Manrope : BasicFontsPreference(13)
+    object NunitoSans : BasicFontsPreference(14)
 
     override fun put(context: Context, scope: CoroutineScope) {
         scope.launch {
@@ -53,6 +55,8 @@ sealed class BasicFontsPreference(val value: Int) : Preference() {
             Jost -> "Jost" // Brief You
             Poppins -> "Poppins" // Brief You
             Vollkorn -> "Vollkorn" // Brief You
+            Manrope -> "Manrope" // Brief You
+            NunitoSans -> "Nunito Sans" // Brief You
         }
 
     fun asFontFamily(context: Context): FontFamily =
@@ -67,6 +71,8 @@ sealed class BasicFontsPreference(val value: Int) : Preference() {
             Jost -> me.ash.reader.brief.ui.JostFontFamily // Brief You
             Poppins -> me.ash.reader.brief.ui.PoppinsFontFamily // Brief You
             Vollkorn -> me.ash.reader.brief.ui.VollkornFontFamily // Brief You
+            Manrope -> me.ash.reader.brief.ui.ManropeFontFamily // Brief You
+            NunitoSans -> me.ash.reader.brief.ui.NunitoSansFontFamily // Brief You
         }
 
     // Brief You: titles and headings a step heavier, as in Material 3 Expressive.
@@ -81,7 +87,7 @@ sealed class BasicFontsPreference(val value: Int) : Preference() {
     companion object {
 
         val default = GoogleSans
-        val values = listOf(GoogleSans, Atkinson, Inter, Jost, Poppins, Vollkorn, System, External) // Brief You
+        val values = listOf(GoogleSans, Manrope, NunitoSans, Atkinson, Inter, Jost, Poppins, Vollkorn, System, External) // Brief You
 
         fun fromPreferences(preferences: Preferences): BasicFontsPreference =
             when (preferences[DataStoreKey.keys[basicFonts]?.key as Preferences.Key<Int>]) {
@@ -93,6 +99,8 @@ sealed class BasicFontsPreference(val value: Int) : Preference() {
                 10 -> Jost // Brief You
                 11 -> Poppins // Brief You
                 12 -> Vollkorn // Brief You
+                13 -> Manrope // Brief You
+                14 -> NunitoSans // Brief You
                 else -> default
             }
     }

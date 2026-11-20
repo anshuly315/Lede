@@ -43,6 +43,10 @@ sealed class ReadingFontsPreference(val value: Int) : Preference() {
     object Jost : ReadingFontsPreference(10)
     object Poppins : ReadingFontsPreference(11)
     object Vollkorn : ReadingFontsPreference(12)
+    object Lora : ReadingFontsPreference(13)
+    object SourceSerif : ReadingFontsPreference(14)
+    object Newsreader : ReadingFontsPreference(15)
+    object Lexend : ReadingFontsPreference(16)
 
     override fun put(context: Context, scope: CoroutineScope) {
         scope.launch {
@@ -68,6 +72,10 @@ sealed class ReadingFontsPreference(val value: Int) : Preference() {
             Jost -> "Jost" // Brief You
             Poppins -> "Poppins" // Brief You
             Vollkorn -> "Vollkorn" // Brief You
+            Lora -> "Lora" // Brief You
+            SourceSerif -> "Source Serif 4" // Brief You
+            Newsreader -> "Newsreader" // Brief You
+            Lexend -> "Lexend" // Brief You
         }
 
     fun asFontFamily(context: Context): FontFamily =
@@ -79,6 +87,10 @@ sealed class ReadingFontsPreference(val value: Int) : Preference() {
             Jost -> me.ash.reader.brief.ui.JostFontFamily // Brief You
             Poppins -> me.ash.reader.brief.ui.PoppinsFontFamily // Brief You
             Vollkorn -> me.ash.reader.brief.ui.VollkornFontFamily // Brief You
+            Lora -> me.ash.reader.brief.ui.LoraFontFamily // Brief You
+            SourceSerif -> me.ash.reader.brief.ui.SourceSerifFontFamily // Brief You
+            Newsreader -> me.ash.reader.brief.ui.NewsreaderFontFamily // Brief You
+            Lexend -> me.ash.reader.brief.ui.LexendFontFamily // Brief You
             System -> FontFamily.Default
             Serif -> FontFamily.Serif
             SansSerif -> FontFamily.SansSerif
@@ -93,7 +105,7 @@ sealed class ReadingFontsPreference(val value: Int) : Preference() {
 
         val default = GoogleSans
         // Brief You: offers Google Sans Flex, Literata, Capy Reader's fonts, the system font and your own font.
-        val values = listOf(GoogleSans, Literata, Atkinson, Inter, Jost, Poppins, Vollkorn, System, External)
+        val values = listOf(GoogleSans, Literata, Lora, SourceSerif, Newsreader, Vollkorn, Lexend, Atkinson, Inter, Jost, Poppins, System, External)
 
         fun fromPreferences(preferences: Preferences): ReadingFontsPreference =
             when (preferences[DataStoreKey.keys[readingFonts]?.key as Preferences.Key<Int>]) {
@@ -110,6 +122,10 @@ sealed class ReadingFontsPreference(val value: Int) : Preference() {
                 10 -> Jost // Brief You
                 11 -> Poppins // Brief You
                 12 -> Vollkorn // Brief You
+                13 -> Lora // Brief You
+                14 -> SourceSerif // Brief You
+                15 -> Newsreader // Brief You
+                16 -> Lexend // Brief You
                 else -> default
             }
     }

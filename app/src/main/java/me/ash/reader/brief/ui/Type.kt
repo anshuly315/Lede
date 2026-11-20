@@ -251,3 +251,11 @@ val InterFontFamily = variableFamily(R.font.inter)
 val JostFontFamily = variableFamily(R.font.jost)
 val PoppinsFontFamily = singleFamily(R.font.poppins)
 val VollkornFontFamily = singleFamily(R.font.vollkorn)
+
+// Brief You: six more fonts (SIL Open Font License), trimmed to Latin and weights 400-700.
+val LoraFontFamily = variableFamily(R.font.lora)
+val SourceSerifFontFamily = variableFamily(R.font.source_serif_4)
+val NewsreaderFontFamily = variableFamily(R.font.newsreader)
+val LexendFontFamily = variableFamily(R.font.lexend)
+val ManropeFontFamily = variableFamily(R.font.manrope)
+val NunitoSansFontFamily = variableFamily(R.font.nunito_sans)
