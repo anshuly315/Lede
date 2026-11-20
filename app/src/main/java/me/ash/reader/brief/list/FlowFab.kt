@@ -60,12 +60,15 @@ fun FlowActionsFab(
 ) {
     AnimatedVisibility(
         visible = visible,
+        // Brief You: no fade or shrink while glass is on (a fading pill over glass leaves a ghost).
         enter =
+            if (me.ash.reader.brief.ui.glass.glassActive()) androidx.compose.animation.EnterTransition.None else
             scaleIn(
                 transformOrigin = FabOrigin,
                 animationSpec = MaterialTheme.motionScheme.fastSpatialSpec(),
             ) + fadeIn(animationSpec = MaterialTheme.motionScheme.fastEffectsSpec()),
         exit =
+            if (me.ash.reader.brief.ui.glass.glassActive()) androidx.compose.animation.ExitTransition.None else
             scaleOut(
                 transformOrigin = FabOrigin,
                 animationSpec = MaterialTheme.motionScheme.fastSpatialSpec(),
