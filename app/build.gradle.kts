@@ -67,13 +67,13 @@ android {
         create("github") {
             isDefault = true
             dimension = "channel"
-            // Brief You (fork of Read You) has its own app ID, so it installs next to Read You.
-            applicationId = "com.ay.briefyou"
-            // Brief You's own name in the network user agent.
+            // Lede (built on Brief You, a fork of Read You) has its own app ID, so it installs next to both.
+            applicationId = "com.ay.lede"
+            // Brief You: Lede's own name in the network user agent.
             buildConfigField(
                 "String",
                 "USER_AGENT_STRING",
-                "\"BriefYou/${defaultConfig.versionName}(${defaultConfig.versionCode})\"",
+                "\"Lede/${defaultConfig.versionName}(${defaultConfig.versionCode})\"",
             )
             // CI builds get a rising version so each release installs as an update. Kept here,
             // away from the upstream version lines, so Read You's version bumps merge cleanly.
@@ -107,8 +107,8 @@ android {
             )
             signingConfig = signingConfigs.getByName("release")
         }
-        // Brief You: test builds ("Brief You Nightly"), the same as release but with their own
-        // app ID, name and icon (app/src/nightly), so they install next to Brief You.
+        // Brief You: test builds ("Lede Nightly"), the same as release but with their own
+        // app ID, name and icon (app/src/nightly), so they install next to Lede.
         create("nightly") {
             initWith(getByName("release"))
             applicationIdSuffix = ".nightly"
@@ -118,7 +118,7 @@ android {
         }
         all { signingConfig = signingConfigs.getByName("release") }
     }
-    // Brief You: the APK's name (BriefYou-<version>-<commit>.apk) is given by the build workflow:
+    // Brief You: the APK's name (Lede-<version>-<commit>.apk) is given by the build workflow:
     // AGP 9 removed the old variant API that named it here.
     // Brief You: Kotlin's options are set in kotlin { compilerOptions } below (kotlinOptions is
     // deprecated).

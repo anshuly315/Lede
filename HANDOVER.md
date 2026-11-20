@@ -1,4 +1,25 @@
-# Brief You — handover guide
+# Lede — handover guide
+
+> **Renamed (November 2026):** this app is now **Lede**, an independent project in
+> **github.com/anshuly315/Lede** (owner: anshuly315). The text below was written when it was
+> still *Brief You*; read "Brief You" as "Lede" unless it means the original app
+> (github.com/Humorist2601/BriefYou), which Lede now only *follows*: `sync.yaml` reads its new
+> commits into a `brief-you-sync` branch. What changed with the rename:
+> - App IDs: **`com.ay.lede`** (release) and **`com.ay.lede.nightly`** (test builds). It installs
+>   next to Brief You as a separate app; move feeds with *Back up everything* / *Restore*.
+> - Names: the app, *Lede Nightly*, the releases (*Lede 0.16.2.N*), APK files (`Lede-…apk`),
+>   backup files (`Lede-backup-<date>.zip`) and the in-app text.
+> - Links in `app/src/github/res/values/strings.xml` and `app/src/nightly/res/values/nightly.xml`
+>   point to anshuly315/Lede. While the repository is private, the in-app update check and
+>   Obtainium cannot read its releases.
+> - **Kept on purpose:** the code comments `// Brief You` (they are the fork's marker, see §3),
+>   the Kotlin package `me.ash.reader`, the `brief/` folder, internal names such as `BriefYouMark`,
+>   `Theme.BriefYou.ReadLater` and the Saved Articles address `briefyou://saved-for-later` (changing
+>   it would break restored backups).
+> - **Not done yet:** the launcher icon and the README/hero pictures still show the Brief You
+>   name (they need a preview first, see §2 rule 2).
+> - Builds need the repository secrets `KEYSTORE_BASE64`, `KEYSTORE_PASSWORD`, `KEY_ALIAS`
+>   in the **Lede** repository; without `KEYSTORE_BASE64` the build stops.
 
 Everything needed to change, fix or release Brief You without any earlier chat history. It is
 written for two readers at once: **you** (the owner), and **an AI assistant** (Claude or any
@@ -17,7 +38,7 @@ in [§9](#9-pending-work-the-baseline).
   with its own features: Triage, on-device AI (Gemma), read aloud, a calmer digest notification,
   muted keywords and duplicate hiding, Read Later, reading stats, backup and more.
   The README lists every feature in detail; it is kept up to date and is the feature reference.
-- Repository: **github.com/Humorist2601/BriefYou** (owner: Humorist2601). Branch `main` is the
+- Repository: **github.com/anshuly315/Lede** (owner: anshuly315). Branch `main` is the
   released app.
 - App IDs: **`com.ay.briefyou`** (release), **`com.ay.briefyou.nightly`** (test builds, installs
   next to it). The code's Kotlin package is still Read You's `me.ash.reader` (on purpose, see §3).
@@ -211,12 +232,12 @@ builds are signed with Read You's public key (a warning in the build). **Never l
 **Reading build results from the command line** (what the assistant did):
 
 ```sh
-gh api "repos/Humorist2601/BriefYou/actions/runs?head_sha=$(git rev-parse HEAD)" \
+gh api "repos/anshuly315/Lede/actions/runs?head_sha=$(git rev-parse HEAD)" \
   --jq '.workflow_runs[] | "\(.id) \(.name) \(.status) \(.conclusion)"'
 # Compile errors appear as annotations on the failed job:
-gh api repos/Humorist2601/BriefYou/actions/runs/<run id>/jobs --jq '.jobs[] | "\(.id) \(.conclusion)"'
-gh api repos/Humorist2601/BriefYou/check-runs/<job id>/annotations --jq '.[] | "\(.path):\(.start_line) \(.message)"'
-gh api repos/Humorist2601/BriefYou/releases --jq '.[0:2][] | "\(.tag_name) \(.name) \(.published_at)"'
+gh api repos/anshuly315/Lede/actions/runs/<run id>/jobs --jq '.jobs[] | "\(.id) \(.conclusion)"'
+gh api repos/anshuly315/Lede/check-runs/<job id>/annotations --jq '.[] | "\(.path):\(.start_line) \(.message)"'
+gh api repos/anshuly315/Lede/releases --jq '.[0:2][] | "\(.tag_name) \(.name) \(.published_at)"'
 ```
 
 The build also lists Kotlin warnings: **Brief You's own code should have 0 warnings** (Read
@@ -422,7 +443,7 @@ them with an output folder, the Material Symbols rounded SVG folder (npm
 ## 8. Starting a new chat (copy and paste)
 
 > I maintain **Brief You**, an Android RSS reader forked from Read You:
-> https://github.com/Humorist2601/BriefYou. Read `HANDOVER.md` and `README.md` in the repository
+> https://github.com/anshuly315/Lede. Read `HANDOVER.md` and `README.md` in the repository
 > first and follow the rules in HANDOVER.md §2 (ask before committing, previews before UI
 > changes, keep the README updated, watch every build to the end, plain language).
 > The problem / change I want: **[describe it; attach a screen recording or screenshot for

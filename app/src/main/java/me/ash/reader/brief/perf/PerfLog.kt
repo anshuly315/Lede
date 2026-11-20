@@ -214,7 +214,7 @@ object PerfLog {
 
     @Synchronized
     fun text(): String = buildString {
-        appendLine("Brief You stutter log (${Build.MODEL}, Android ${Build.VERSION.RELEASE}, ${BuildConfig.VERSION_NAME})")
+        appendLine("Lede stutter log (${Build.MODEL}, Android ${Build.VERSION.RELEASE}, ${BuildConfig.VERSION_NAME})")
         appendLine("Each action: its late frames (past the phone's deadline, about 8 ms at 120 Hz) in the ${WINDOW_MS / 1000.0} s after it, and what the")
         appendLine("main thread was running while stuck (each sample is about $SAMPLE_EVERY_MS ms).")
         appendLine("\"draw\" includes Compose measuring and building list rows; \"wait before\" is the")
@@ -246,7 +246,7 @@ fun PerfLogButton() {
         FilledTonalButton(
             onClick = {
                 val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                clipboard.setPrimaryClip(ClipData.newPlainText("Brief You stutter log", PerfLog.text()))
+                clipboard.setPrimaryClip(ClipData.newPlainText("Lede stutter log", PerfLog.text()))
                 context.showToast("Stutter log copied")
             }
         ) {
