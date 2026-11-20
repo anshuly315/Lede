@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -36,10 +38,11 @@ fun StylePreview(modifier: Modifier = Modifier) {
     val glassOn = me.ash.reader.brief.ui.glass.glassActive()
     val dark = c.surface.luminance() < 0.5f
     val classic = BriefStyle.design == DesignStyle.Classic
-    val barHeight = (BriefLook.barHeightDp(true) * 0.4f).dp
+    val compact = BriefLook.compactBar
+    val barHeight = ((if (compact) 56f else BriefLook.barHeightDp(true)) * 0.4f).dp
     val side = (BriefLook.barSideDp() * 0.4f).dp
     val bottom = (BriefLook.barBottom * 0.4f).dp
-    val barShape = if (classic) RoundedCornerShape((BriefLook.classicBarCorner() * 12f / 32f).dp) else RoundedCornerShape(12.dp)
+    val barShape = if (classic) RoundedCornerShape((BriefLook.classicBarCorner() * 12f / 32f).dp) else if (compact) CircleShape else RoundedCornerShape(12.dp)
     Box(modifier = modifier.fillMaxSize()) {
         // The page behind the bar. With glass on it gets colourful stripes, so the glass has something to show.
         Column(
@@ -47,15 +50,16 @@ fun StylePreview(modifier: Modifier = Modifier) {
                 Modifier.fillMaxSize()
                     .then(
                         if (glassOn) Modifier.drawBehind {
-                            val stripe = 26.dp.toPx()
-                            val colors = listOf(c.primary, c.tertiary, c.secondary)
-                            var x = -size.height
-                            var i = 0
-                            while (x < size.width) {
-                                drawLine(colors[i % 3].copy(alpha = 0.55f), Offset(x, size.height), Offset(x + size.height, 0f), strokeWidth = stripe)
-                                x += stripe * 1.6f
-                                i++
-                            }
+                            // A soft colourful wallpaper, so the glass has something to show.
+                            fun blob(color: Color, cx: Float, cy: Float, r: Float) =
+                                drawCircle(
+                                    Brush.radialGradient(listOf(color.copy(alpha = 0.55f), Color.Transparent), center = Offset(cx * size.width, cy * size.height), radius = r * size.width),
+                                    radius = r * size.width,
+                                    center = Offset(cx * size.width, cy * size.height),
+                                )
+                            blob(c.primary, 0.15f, 0.25f, 0.55f)
+                            blob(c.tertiary, 0.85f, 0.55f, 0.5f)
+                            blob(c.secondary, 0.4f, 0.95f, 0.5f)
                         } else Modifier
                     ),
             verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -90,9 +94,30 @@ fun StylePreview(modifier: Modifier = Modifier) {
             Spacer(Modifier.height(barHeight))
         }
         // The bottom bar, drawn from the real bar settings: thickness, distance from the sides and from the bottom.
-        Box(Modifier.align(Alignment.BottomCenter).fillMaxWidth().padding(horizontal = side).padding(bottom = bottom).height(barHeight)) {
+        Box(
+            Modifier.align(Alignment.BottomCenter)
+                .then(if (compact) Modifier.padding(bottom = bottom).height(barHeight) else Modifier.fillMaxWidth().padding(horizontal = side).padding(bottom = bottom).height(barHeight))
+        ) {
             val barContent: @Composable () -> Unit = {
-                Row(
+                if (compact) {
+                    // The small bar: icons, with the name beside the selected one.
+                    Row(
+                        modifier = Modifier.fillMaxHeight().padding(horizontal = 6.dp),
+                        horizontalArrangement = Arrangement.spacedBy(6.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Dot(10.dp, c.onSecondaryContainer)
+                        Row(
+                            modifier = Modifier.clip(if (classic) RoundedCornerShape(5.dp) else CircleShape).background(c.primary).padding(horizontal = 8.dp, vertical = 5.dp),
+                            horizontalArrangement = Arrangement.spacedBy(5.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Dot(8.dp, c.onPrimary)
+                            Line(26.dp, c.onPrimary)
+                        }
+                        Dot(10.dp, c.onSecondaryContainer)
+                    }
+                } else Row(
                     modifier = Modifier.fillMaxSize().padding(horizontal = 10.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
@@ -108,12 +133,12 @@ fun StylePreview(modifier: Modifier = Modifier) {
                 val g = me.ash.reader.brief.ui.glass.BriefGlass
                 val veil = (if (dark) Color.Black else Color.White).copy(alpha = (g.frostPct() / 100f * 1.6f).coerceIn(0f, 0.9f))
                 Box(
-                    Modifier.fillMaxSize().clip(barShape)
+                    (if (compact) Modifier else Modifier.fillMaxSize()).clip(barShape)
                         .background(veil)
                         .background(c.primaryContainer.copy(alpha = (g.tintPct() / 100f).coerceIn(0f, 0.9f)))
                 ) { barContent() }
             } else {
-                Box(Modifier.fillMaxSize().clip(barShape).background(c.secondaryContainer)) { barContent() }
+                Box((if (compact) Modifier else Modifier.fillMaxSize()).clip(barShape).background(c.secondaryContainer)) { barContent() }
             }
         }
     }

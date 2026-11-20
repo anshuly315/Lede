@@ -35,6 +35,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Explore
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.UnfoldLess
@@ -115,6 +116,7 @@ fun FeedsPage(
     navigateToAccountList: () -> Unit,
     navigateToAccountDetail: (Int) -> Unit,
     navigateToFilters: () -> Unit = {}, // Brief You
+    navigateToForYou: () -> Unit = {}, // Brief You
 ) {
     var accountTabVisible by remember { mutableStateOf(false) }
     var sortSheetVisible by remember { mutableStateOf(false) } // Brief You
@@ -230,6 +232,7 @@ fun FeedsPage(
                 actions = {
                     TopBarButtonGroup( // Brief You
                         buildList {
+                            add(TopBarAction(Icons.Outlined.Explore, stringResource(R.string.for_you)) { navigateToForYou() })
                             add(TopBarAction(Icons.AutoMirrored.Outlined.Sort, stringResource(R.string.sort_title)) { sortSheetVisible = true })
                             add(TopBarAction(Icons.Outlined.FilterAlt, stringResource(R.string.filters_settings)) { navigateToFilters() })
                             if (subscribeViewModel.rssService.get().addSubscription) {

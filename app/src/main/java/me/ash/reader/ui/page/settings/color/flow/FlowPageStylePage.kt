@@ -22,6 +22,7 @@ import me.ash.reader.ui.component.base.*
 import me.ash.reader.ui.page.settings.SettingItem
 import me.ash.reader.ui.theme.palette.onLight
 
+@OptIn(androidx.compose.foundation.ExperimentalFoundationApi::class)
 @Composable
 fun FlowPageStylePage(
     onBack: () -> Unit,
@@ -75,31 +76,37 @@ fun FlowPageStylePage(
                     DisplayText(text = stringResource(R.string.flow_page), desc = "")
                 }
 
-                // Preview
-                item {
-                    Row(
+                // Preview (Brief You: it stays on screen while you scroll, so every change shows at once)
+                stickyHeader {
+                    Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 24.dp)
-                            .clip(RoundedCornerShape(24.dp))
-                            .background(
-                                MaterialTheme.colorScheme.inverseOnSurface
-                                        onLight MaterialTheme.colorScheme.surface.copy(0.7f)
-                            )
-                            .clickable { },
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
+                            .background(MaterialTheme.colorScheme.surface onLight MaterialTheme.colorScheme.inverseOnSurface)
                     ) {
-                        FlowPagePreview(
-                            topBarTonalElevation = topBarTonalElevation,
-                            articleListTonalElevation = articleListTonalElevation,
-                            filterBarStyle = filterBarStyle.value,
-                            filterBarFilled = true,
-                            filterBarPadding = filterBarPadding.dp,
-                            filterBarTonalElevation = filterBarTonalElevation.value.dp,
-                        )
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 24.dp)
+                                .clip(RoundedCornerShape(24.dp))
+                                .background(
+                                    MaterialTheme.colorScheme.inverseOnSurface
+                                            onLight MaterialTheme.colorScheme.surface.copy(0.7f)
+                                )
+                                .clickable { },
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            FlowPagePreview(
+                                topBarTonalElevation = topBarTonalElevation,
+                                articleListTonalElevation = articleListTonalElevation,
+                                filterBarStyle = filterBarStyle.value,
+                                filterBarFilled = true,
+                                filterBarPadding = filterBarPadding.dp,
+                                filterBarTonalElevation = filterBarTonalElevation.value.dp,
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(12.dp))
                     }
-                    Spacer(modifier = Modifier.height(24.dp))
                 }
 
                 // Top Bar

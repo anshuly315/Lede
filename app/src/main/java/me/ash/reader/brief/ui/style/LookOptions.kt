@@ -51,8 +51,6 @@ fun ListLookSections() {
     val context = LocalContext.current
     BriefLook.init(context)
 
-    Subtitle(modifier = Modifier.padding(horizontal = 24.dp), text = stringResource(R.string.list_look_preview))
-    ListLookPreview()
     Subtitle(modifier = Modifier.padding(horizontal = 24.dp), text = stringResource(R.string.list_look_view))
     SettingGroup {
         ListMode.entries.forEach { option ->
@@ -258,45 +256,3 @@ fun GlassCustomSections() {
 }
 
 
-/** A sample article row that follows the list settings (text size, short titles, picture size and corners) as they change. */
-@Composable
-private fun ListLookPreview() {
-    val scale = BriefLook.listFontPct / 100f
-    val title = MaterialTheme.typography.titleMedium
-    val body = MaterialTheme.typography.bodySmall
-    Surface(
-        shape = androidx.compose.foundation.shape.RoundedCornerShape(Corner.Card),
-        color = MaterialTheme.colorScheme.surfaceContainerHigh,
-        modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth(),
-    ) {
-        Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.Top) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text("The Daily Example · 2h", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                Text(
-                    "A long headline that shows how many lines the article titles are given in the list",
-                    style = title.copy(fontSize = title.fontSize * scale, lineHeight = title.lineHeight * scale),
-                    maxLines = if (BriefLook.shortenTitles) 2 else 4,
-                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(top = 4.dp),
-                )
-                Text(
-                    "A short description of the article appears here under the title, in smaller text.",
-                    style = body.copy(fontSize = body.fontSize * scale, lineHeight = body.lineHeight * scale),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 2,
-                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(top = 4.dp),
-                )
-            }
-            if (BriefLook.mode == ListMode.Magazine) {
-                Box(
-                    Modifier
-                        .padding(start = 10.dp)
-                        .size(BriefLook.imageSize.dp)
-                        .clip(androidx.compose.foundation.shape.RoundedCornerShape(BriefLook.corner.dp))
-                        .background(MaterialTheme.colorScheme.secondaryContainer)
-                )
-            }
-        }
-    }
-}

@@ -658,4 +658,15 @@
     <string name="glass_outline_desc">A thin light edge around the glass</string>
     <string name="glass_reading">Glass on the article page</string>
     <string name="glass_reading_desc">May flicker while scrolling an article. Off by default.</string>
+    <string name="for_you">For you</string>
+    <string name="for_you_add_topic">Add topic</string>
+    <string name="for_you_add">Add</string>
+    <string name="for_you_remove_topic">Remove topic</string>
+    <string name="for_you_topic_hint">e.g. Cricket, Space, Diabetes</string>
+    <string name="for_you_refresh">Refresh</string>
+    <string name="for_you_source_note">Stories from Google News for your topics. Only the topic words are sent.</string>
+    <string name="for_you_not_interested">Not interested</string>
+    <string name="for_you_hide_source">Hide %1$s</string>
+    <string name="for_you_empty">Nothing found right now. Check your connection or add more topics.</string>
+    <string name="for_you_no_topics">Add a topic to see stories.</string>
 </resources>
