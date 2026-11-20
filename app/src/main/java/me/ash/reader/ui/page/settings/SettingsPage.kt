@@ -23,6 +23,9 @@ import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -75,7 +78,17 @@ fun SettingsPage(
             )
         },
         content = {
-            LazyColumn {
+            // Brief You: swiping right (from the Feeds page's Starred tab you came in the same way) goes back to the Feeds page.
+            var swiped by remember { mutableStateOf(0f) }
+            LazyColumn(
+                modifier = Modifier.pointerInput(Unit) {
+                    detectHorizontalDragGestures(
+                        onDragStart = { swiped = 0f },
+                        onDragEnd = { if (swiped > 72.dp.toPx()) onBack(); swiped = 0f },
+                        onDragCancel = { swiped = 0f },
+                    ) { _, drag -> swiped += drag }
+                }
+            ) {
                 item {
                     DisplayText(text = stringResource(R.string.settings), desc = "")
                 }

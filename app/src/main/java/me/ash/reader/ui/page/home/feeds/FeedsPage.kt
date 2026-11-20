@@ -250,7 +250,7 @@ fun FeedsPage(
         content = {
             // Brief You: swipeable Starred / Unread / All pages; each runs Read You's list below
             // with its own filter state, groups, count line and list state.
-            BriefFeedsPages(feedsPager, feedsViewModel, filterState, state = syncingState, isRefreshing = isSyncing, onRefresh = doSync) { filterState, groupWithFeedList, importantSum, listState ->
+            BriefFeedsPages(feedsPager, feedsViewModel, filterState, state = syncingState, isRefreshing = isSyncing, onRefresh = doSync, onSwipePastStart = navigateToSettings) { filterState, groupWithFeedList, importantSum, listState ->
                 LazyColumn(modifier = Modifier.fillMaxSize().then(me.ash.reader.brief.ui.glass.rememberGlassSource()).drawVerticalScrollIndicator(listState), state = listState) { // Brief You: glass source
                     item {
                         DisplayText(text = feedsUiState.account?.name ?: "", desc = "") {

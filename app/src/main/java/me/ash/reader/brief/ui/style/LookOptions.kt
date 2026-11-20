@@ -168,15 +168,18 @@ fun BottomBarSections() {
             onChange = { BriefLook.setBarHeight(context, it) },
         )
         Spacer(Modifier.size(2.dp))
-        LookSlider(
-            icon = Icons.Outlined.CropSquare,
-            label = stringResource(R.string.bottom_bar_sides),
-            value = BriefLook.barSideDp(),
-            range = 0f..32f,
-            steps = 15,
-            onChange = { BriefLook.setBarSide(context, it) },
-        )
-        Spacer(Modifier.size(2.dp))
+        // Classic's bar always runs edge to edge, so it has no side distance to set.
+        if (BriefStyle.design != DesignStyle.Classic) {
+            LookSlider(
+                icon = Icons.Outlined.CropSquare,
+                label = stringResource(R.string.bottom_bar_sides),
+                value = BriefLook.barSideDp(),
+                range = 0f..32f,
+                steps = 15,
+                onChange = { BriefLook.setBarSide(context, it) },
+            )
+            Spacer(Modifier.size(2.dp))
+        }
         LookSlider(
             icon = Icons.Outlined.CropSquare,
             label = stringResource(R.string.bottom_bar_bottom),

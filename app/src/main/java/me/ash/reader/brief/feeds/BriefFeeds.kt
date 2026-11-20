@@ -17,6 +17,8 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
 import androidx.compose.material3.pulltorefresh.PullToRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.collectAsState
@@ -116,6 +118,8 @@ fun BriefFeedsPages(
     state: PullToRefreshState,
     isRefreshing: Boolean,
     onRefresh: () -> Unit,
+    /** Called when you pull the first page (Starred) further right than it goes: opens Settings. */
+    onSwipePastStart: () -> Unit = {},
     content:
         @Composable
         (
@@ -149,9 +153,43 @@ fun BriefFeedsPages(
             )
         },
     ) {
+        val density = androidx.compose.ui.platform.LocalDensity.current
+        val haptics = LocalHapticFeedback.current
+        val latestSwipePast by rememberUpdatedState(onSwipePastStart)
+        // Dragging right on the first page (Starred) has nowhere to go; a long enough pull there
+        // opens Settings when you let go.
+        val pastStart = remember(pagerState) {
+            object : androidx.compose.ui.input.nestedscroll.NestedScrollConnection {
+                var pulled = 0f
+                override fun onPostScroll(
+                    consumed: androidx.compose.ui.geometry.Offset,
+                    available: androidx.compose.ui.geometry.Offset,
+                    source: androidx.compose.ui.input.nestedscroll.NestedScrollSource,
+                ): androidx.compose.ui.geometry.Offset {
+                    if (pagerState.currentPage == 0 && available.x > 0f &&
+                        source == androidx.compose.ui.input.nestedscroll.NestedScrollSource.UserInput
+                    ) {
+                        pulled += available.x
+                    } else if (available.x < 0f || pagerState.currentPage != 0) {
+                        pulled = 0f
+                    }
+                    return androidx.compose.ui.geometry.Offset.Zero
+                }
+
+                override suspend fun onPostFling(consumed: androidx.compose.ui.unit.Velocity, available: androidx.compose.ui.unit.Velocity): androidx.compose.ui.unit.Velocity {
+                    val enough = pulled > with(density) { 72.dp.toPx() }
+                    pulled = 0f
+                    if (enough && pagerState.currentPage == 0) {
+                        haptics.performHapticFeedback(HapticFeedbackType.Confirm)
+                        latestSwipePast()
+                    }
+                    return androidx.compose.ui.unit.Velocity.Zero
+                }
+            }
+        }
         HorizontalPager(
             state = pagerState,
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().nestedScroll(pastStart),
             key = { filters[it].index },
             // All three pages stay ready (once the screen has settled), so the one you swipe to
             // is already filled in.
