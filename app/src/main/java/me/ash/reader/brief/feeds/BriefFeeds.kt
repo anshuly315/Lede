@@ -77,6 +77,7 @@ fun rememberBriefFeedsPager(filterState: FilterState, feedsViewModel: FeedsViewM
         // A swipe changes the filter itself, half way; the pager is then already on that page and
         // finishes the swipe on its own. Animating here too would fight your finger (and the fling)
         // and make swiping feel laggy, so only a filter the pager isn't on yet slides it.
+        me.ash.reader.brief.perf.PerfLog.action("Feeds pager: filter now page $currentPage, pager on ${pagerState.currentPage}")
         if (pagerState.currentPage != currentPage) {
             slidingToPage = true
             try {

@@ -144,6 +144,10 @@ fun BriefFilterBar(
                     )
                     val chipInteraction = androidx.compose.runtime.remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
                     val chipPressed by chipInteraction.collectIsPressedAsState()
+                    // Diagnostic (Nightly log): did the touch reach this chip?
+                    androidx.compose.runtime.LaunchedEffect(chipPressed) {
+                        if (chipPressed) me.ash.reader.brief.perf.PerfLog.action("Compact bar: touch on ${item.toName()}")
+                    }
                     val wiggle = androidx.compose.runtime.remember { androidx.compose.animation.core.Animatable(0f) }
                     androidx.compose.runtime.LaunchedEffect(selected) {
                         if (selected) {
@@ -168,6 +172,7 @@ fun BriefFilterBar(
                             .background(if (!selected && chipPressed) (if (glassBar) MaterialTheme.colorScheme.primary.copy(alpha = 0.18f) else indicatorColor.copy(alpha = 0.5f)) else chip)
                             .selectable(selected = selected, interactionSource = chipInteraction, indication = null, role = androidx.compose.ui.semantics.Role.Tab) {
                                 view.playSoundEffect(SoundEffectConstants.CLICK)
+                                me.ash.reader.brief.perf.PerfLog.action("Compact bar: tap on ${item.toName()}")
                                 filterOnClick(item)
                             }
                             .defaultMinSize(minWidth = 48.dp, minHeight = 40.dp)
