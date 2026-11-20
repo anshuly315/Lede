@@ -295,9 +295,10 @@ fun ArticleItem(
                         style =
                             MaterialTheme.typography.titleMedium
                                 .applyTextDirection(title.requiresBidi())
-                                .merge(lineHeight = 22.sp),
+                                .merge(lineHeight = 22.sp)
+                                .let { it.copy(fontSize = it.fontSize * (me.ash.reader.brief.ui.style.BriefLook.listFontPct / 100f), lineHeight = it.lineHeight * (me.ash.reader.brief.ui.style.BriefLook.listFontPct / 100f)) }, // Brief You: list text size
                         maxLines =
-                            if (articleListDesc != FlowArticleListDescPreference.NONE) 2 else 4,
+                            if (me.ash.reader.brief.ui.style.BriefLook.shortenTitles || articleListDesc != FlowArticleListDescPreference.NONE) 2 else 4, // Brief You: shorten titles
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.weight(1f),
                     )
@@ -322,7 +323,7 @@ fun ArticleItem(
                         style =
                             MaterialTheme.typography.bodySmall.applyTextDirection(
                                 shortDescription.requiresBidi()
-                            ),
+                            ).let { it.copy(fontSize = it.fontSize * (me.ash.reader.brief.ui.style.BriefLook.listFontPct / 100f), lineHeight = it.lineHeight * (me.ash.reader.brief.ui.style.BriefLook.listFontPct / 100f)) }, // Brief You: list text size
                         maxLines =
                             when (articleListDesc) {
                                 FlowArticleListDescPreference.LONG -> 4

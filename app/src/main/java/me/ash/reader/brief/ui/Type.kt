@@ -232,3 +232,22 @@ val LiterataFontFamily =
         literata(600, true),
         literata(700, true),
     )
+
+
+// Brief You: more reading fonts, from Capy Reader (SIL Open Font License). Inter and Jost are
+// variable fonts (any weight); Atkinson Hyperlegible, Poppins and Vollkorn have one cut, so bold
+// text is drawn by Android.
+private fun variableFamily(res: Int) =
+    FontFamily(
+        listOf(400, 500, 600, 700).map {
+            Font(res, weight = FontWeight(it), variationSettings = FontVariation.Settings(FontVariation.weight(it)))
+        }
+    )
+
+private fun singleFamily(res: Int) = FontFamily(Font(res))
+
+val AtkinsonFontFamily = singleFamily(R.font.atkinson_hyperlegible)
+val InterFontFamily = variableFamily(R.font.inter)
+val JostFontFamily = variableFamily(R.font.jost)
+val PoppinsFontFamily = singleFamily(R.font.poppins)
+val VollkornFontFamily = singleFamily(R.font.vollkorn)

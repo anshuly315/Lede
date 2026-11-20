@@ -37,6 +37,13 @@ sealed class ReadingFontsPreference(val value: Int) : Preference() {
     // Brief You: Google's serif for long reading.
     object Literata : ReadingFontsPreference(7)
 
+    // Brief You: more reading fonts, from Capy Reader (all SIL Open Font License).
+    object Atkinson : ReadingFontsPreference(8)
+    object Inter : ReadingFontsPreference(9)
+    object Jost : ReadingFontsPreference(10)
+    object Poppins : ReadingFontsPreference(11)
+    object Vollkorn : ReadingFontsPreference(12)
+
     override fun put(context: Context, scope: CoroutineScope) {
         scope.launch {
             context.dataStore.put(DataStoreKey.readingFonts, value)
@@ -56,12 +63,22 @@ sealed class ReadingFontsPreference(val value: Int) : Preference() {
             Cursive -> "Cursive"
             External -> context.getString(R.string.external_fonts)
             Literata -> "Literata" // Brief You
+            Atkinson -> "Atkinson Hyperlegible" // Brief You
+            Inter -> "Inter" // Brief You
+            Jost -> "Jost" // Brief You
+            Poppins -> "Poppins" // Brief You
+            Vollkorn -> "Vollkorn" // Brief You
         }
 
     fun asFontFamily(context: Context): FontFamily =
         when (this) {
             GoogleSans -> GoogleSansReadingFontFamily // Brief You: the half-rounded reading cut
             Literata -> LiterataFontFamily // Brief You
+            Atkinson -> me.ash.reader.brief.ui.AtkinsonFontFamily // Brief You
+            Inter -> me.ash.reader.brief.ui.InterFontFamily // Brief You
+            Jost -> me.ash.reader.brief.ui.JostFontFamily // Brief You
+            Poppins -> me.ash.reader.brief.ui.PoppinsFontFamily // Brief You
+            Vollkorn -> me.ash.reader.brief.ui.VollkornFontFamily // Brief You
             System -> FontFamily.Default
             Serif -> FontFamily.Serif
             SansSerif -> FontFamily.SansSerif
@@ -75,8 +92,8 @@ sealed class ReadingFontsPreference(val value: Int) : Preference() {
     companion object {
 
         val default = GoogleSans
-        // Brief You: offers Google Sans Flex, Literata, the system font and your own font.
-        val values = listOf(GoogleSans, Literata, System, External)
+        // Brief You: offers Google Sans Flex, Literata, Capy Reader's fonts, the system font and your own font.
+        val values = listOf(GoogleSans, Literata, Atkinson, Inter, Jost, Poppins, Vollkorn, System, External)
 
         fun fromPreferences(preferences: Preferences): ReadingFontsPreference =
             when (preferences[DataStoreKey.keys[readingFonts]?.key as Preferences.Key<Int>]) {
@@ -88,6 +105,11 @@ sealed class ReadingFontsPreference(val value: Int) : Preference() {
                 5 -> External
                 6 -> GoogleSans
                 7 -> Literata // Brief You
+                8 -> Atkinson // Brief You
+                9 -> Inter // Brief You
+                10 -> Jost // Brief You
+                11 -> Poppins // Brief You
+                12 -> Vollkorn // Brief You
                 else -> default
             }
     }

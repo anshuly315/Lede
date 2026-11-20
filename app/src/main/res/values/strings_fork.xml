@@ -619,6 +619,10 @@
     <string name="list_look_pictures">Pictures and corners</string>
     <string name="list_look_image_size">Picture size</string>
     <string name="list_look_corners">Corner roundness</string>
+    <string name="list_look_text_size">Text size</string>
+    <string name="list_look_shorten">Shorten titles</string>
+    <string name="list_look_shorten_desc">Titles stop at two lines</string>
+    <string name="list_look_preview">Preview</string>
     <string name="list_look_reset">Reset to default</string>
     <string name="list_mode_text">Text only</string>
     <string name="list_mode_text_desc">Titles and short text, no pictures</string>
@@ -640,6 +644,8 @@
     <string name="bottom_bar">Bottom bar</string>
     <string name="bottom_bar_thickness">Thickness</string>
     <string name="bottom_bar_sides">Distance from the sides</string>
+    <string name="bottom_bar_compact">Compact bar</string>
+    <string name="bottom_bar_compact_desc">A small bar with only icons; the name shows beside the selected one (like Capy Reader)</string>
     <string name="bottom_bar_bottom">Distance from the bottom</string>
     <string name="glass_customise">Customise the glass</string>
     <string name="glass_blur">Blur</string>

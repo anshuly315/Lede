@@ -285,6 +285,8 @@ Open the project in [Android Studio](https://developer.android.com/studio) and r
 
 ## Credits and license
 
+The reading fonts Atkinson Hyperlegible, Inter, Jost, Poppins and Vollkorn, and the compact bottom bar and article list settings, come from [Capy Reader](https://github.com/jocmp/capyreader) by jocmp (GPL-3.0; the fonts are SIL Open Font License).
+
 The glass effect comes from [SimpMusic](https://github.com/maxrave-dev/SimpMusic) by maxrave-dev (GPL-3.0).
 
 Brief You is built on [**Read You**](https://github.com/ReadYouApp/ReadYou) by [Ashinch](https://github.com/Ashinch) and its contributors. All credit for the original app goes to them. If you like the app, consider [supporting Read You](https://ash7.io/sponsor).

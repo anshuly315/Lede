@@ -105,6 +105,16 @@ fun RYWebView(
             "/android_res/font/google_sans_flex.ttf"
         } else if (readingFonts is ReadingFontsPreference.Literata) {
             "/android_res/font/literata.ttf"
+        } else if (readingFonts is ReadingFontsPreference.Atkinson) {
+            "/android_res/font/atkinson_hyperlegible.ttf"
+        } else if (readingFonts is ReadingFontsPreference.Inter) {
+            "/android_res/font/inter.ttf"
+        } else if (readingFonts is ReadingFontsPreference.Jost) {
+            "/android_res/font/jost.ttf"
+        } else if (readingFonts is ReadingFontsPreference.Poppins) {
+            "/android_res/font/poppins.ttf"
+        } else if (readingFonts is ReadingFontsPreference.Vollkorn) {
+            "/android_res/font/vollkorn.ttf"
         } else null
 
     // Made again only when a setting or colour changes, not on every redraw while the article

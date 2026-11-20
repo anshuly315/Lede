@@ -49,6 +49,14 @@ object BriefLook {
         private set
     var barBottom by mutableFloatStateOf(0f)
         private set
+    /** Size of the text in the article list, in percent (100 = normal), and whether titles stop at two lines (from Capy Reader). */
+    var listFontPct by mutableFloatStateOf(100f)
+        private set
+    var shortenTitles by mutableStateOf(false)
+        private set
+    /** The small Capy-style bar: icons only, and the name beside the one that is selected. */
+    var compactBar by mutableStateOf(false)
+        private set
 
     private val classic get() = BriefStyle.design == DesignStyle.Classic
     /** What "automatic" means for each measure, in this design style. */
@@ -74,6 +82,11 @@ object BriefLook {
         prefs(context).edit { putFloat("barBottom", barBottom) }
     }
 
+    fun setCompactBar(context: Context, value: Boolean) {
+        init(context); compactBar = value
+        prefs(context).edit { putBoolean("compactBar", value) }
+    }
+
     fun resetBar(context: Context) {
         init(context); barHeight = -1f; barSide = -1f; barBottom = 0f
         prefs(context).edit { remove("barHeight"); remove("barSide"); remove("barBottom") }
@@ -89,6 +102,9 @@ object BriefLook {
         barHeight = prefs.getFloat("barHeight", -1f)
         barSide = prefs.getFloat("barSide", -1f)
         barBottom = prefs.getFloat("barBottom", 0f)
+        compactBar = prefs.getBoolean("compactBar", false)
+        listFontPct = prefs.getFloat("listFontPct", 100f).coerceIn(80f, 140f)
+        shortenTitles = prefs.getBoolean("shortenTitles", false)
         ready = true
     }
 
@@ -107,6 +123,16 @@ object BriefLook {
     fun setImageSize(context: Context, value: Float) {
         init(context); imageSize = value.coerceIn(48f, 140f)
         prefs(context).edit { putFloat("imageSize", imageSize) }
+    }
+
+    fun setListFontPct(context: Context, value: Float) {
+        init(context); listFontPct = value.coerceIn(80f, 140f)
+        prefs(context).edit { putFloat("listFontPct", listFontPct) }
+    }
+
+    fun setShortenTitles(context: Context, value: Boolean) {
+        init(context); shortenTitles = value
+        prefs(context).edit { putBoolean("shortenTitles", value) }
     }
 
     fun setCorner(context: Context, value: Float) {

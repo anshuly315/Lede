@@ -7,6 +7,8 @@ package me.ash.reader.brief.ui
 import android.os.Build
 import android.view.SoundEffectConstants
 import androidx.compose.foundation.background
+import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
@@ -45,7 +47,7 @@ import me.ash.reader.ui.theme.palette.onDark
 /** A tall bar, like a music player's. Taller than the stock navigation bar. */
 fun filterBarContainerHeight(filterBarStyle: Int): Dp =
     // Brief You: the height can be set (Color & Style > Bottom bar); automatic is 88/76 dp, or 72 in Classic.
-    me.ash.reader.brief.ui.style.BriefLook.barHeightDp(filterBarStyle != FlowFilterBarStylePreference.Icon.value).dp
+    if (me.ash.reader.brief.ui.style.BriefLook.compactBar) 56.dp else me.ash.reader.brief.ui.style.BriefLook.barHeightDp(filterBarStyle != FlowFilterBarStylePreference.Icon.value).dp
 
 /**
  * The gap under everything that floats at the bottom of the screen: the reading page's pill (above
@@ -90,7 +92,9 @@ fun BriefFilterBar(
 
     // Brief You: a floating bar with rounded corners (not a full-width strip, and not a pill). It
     // sits right on top of the system gesture area, with side margins and a little room above.
+    val compact = me.ash.reader.brief.ui.style.BriefLook.compactBar
     Box(
+        contentAlignment = Alignment.Center,
         modifier =
             modifier
                 .then(if (classic) Modifier else Modifier.drawBehind {
@@ -121,13 +125,56 @@ fun BriefFilterBar(
             modifier =
             Modifier
                 .then(if (insideInsets) Modifier.windowInsetsPadding(NavigationBarDefaults.windowInsets) else Modifier)
-                .fillMaxWidth()
-                .defaultMinSize(minHeight = containerHeight)
+                .then(if (compact) Modifier.padding(horizontal = 6.dp) else Modifier.fillMaxWidth())
+                .defaultMinSize(minHeight = if (compact) 56.dp else containerHeight)
                 .selectableGroup(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(if (compact) 4.dp else 8.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
 
+            if (compact) {
+                // Brief You: the small bar (like Capy Reader's): icons, and the name beside the selected one.
+                Filter.values.forEach { item ->
+                    val selected = filter == item
+                    val chip by androidx.compose.animation.animateColorAsState(
+                        targetValue = if (selected) (if (glassBar) MaterialTheme.colorScheme.primary.copy(alpha = 0.30f) else indicatorColor) else Color.Transparent,
+                        label = "compactChip",
+                    )
+                    Row(
+                        modifier = Modifier
+                            .clip(if (classic) RoundedCornerShape(8.dp) else RoundedCornerShape(50))
+                            .background(chip)
+                            .selectable(selected = selected, role = androidx.compose.ui.semantics.Role.Tab) {
+                                view.playSoundEffect(SoundEffectConstants.CLICK)
+                                filterOnClick(item)
+                            }
+                            .defaultMinSize(minWidth = 48.dp, minHeight = 40.dp)
+                            .padding(horizontal = 14.dp),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Icon(
+                            imageVector = if (selected && filterBarFilled) item.iconFilled else item.iconOutline,
+                            contentDescription = item.toName(),
+                            tint = if (selected) {
+                                if (glassBar) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.contentColorFor(indicatorColor)
+                            } else MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                        androidx.compose.animation.AnimatedVisibility(visible = selected) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Spacer(Modifier.width(8.dp))
+                                Text(
+                                    text = item.toName().uppercase(),
+                                    style = MaterialTheme.typography.labelMedium,
+                                    letterSpacing = 0.8.sp,
+                                    maxLines = 1,
+                                    color = if (glassBar) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.contentColorFor(indicatorColor),
+                                )
+                            }
+                        }
+                    }
+                }
+            } else {
             Spacer(modifier = Modifier.width(filterBarPadding))
             // Brief You: Classic and glass have no pill-shaped press highlight around a tab (its own square marks the selected one).
             androidx.compose.runtime.CompositionLocalProvider(
@@ -194,6 +241,7 @@ fun BriefFilterBar(
             }
             }
             Spacer(modifier = Modifier.width(filterBarPadding))
+            } // Brief You: not compact
         }
     }
     } // Brief You

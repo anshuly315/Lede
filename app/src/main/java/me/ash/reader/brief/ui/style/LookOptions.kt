@@ -14,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.CropSquare
 import androidx.compose.material.icons.outlined.PhotoSizeSelectLarge
+import androidx.compose.material.icons.outlined.TextFields
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -50,6 +51,8 @@ fun ListLookSections() {
     val context = LocalContext.current
     BriefLook.init(context)
 
+    Subtitle(modifier = Modifier.padding(horizontal = 24.dp), text = stringResource(R.string.list_look_preview))
+    ListLookPreview()
     Subtitle(modifier = Modifier.padding(horizontal = 24.dp), text = stringResource(R.string.list_look_view))
     SettingGroup {
         ListMode.entries.forEach { option ->
@@ -95,14 +98,33 @@ fun ListLookSections() {
             steps = 15,
             onChange = { BriefLook.setCorner(context, it) },
         )
+        Spacer(Modifier.size(2.dp))
+        LookSlider(
+            icon = Icons.Outlined.TextFields,
+            label = stringResource(R.string.list_look_text_size),
+            value = BriefLook.listFontPct,
+            range = 80f..140f,
+            steps = 11,
+            onChange = { BriefLook.setListFontPct(context, it) },
+            unit = "%",
+        )
         TextButton(
             onClick = {
                 BriefLook.setImageSize(context, BriefLook.IMAGE_DEFAULT)
                 BriefLook.setCorner(context, BriefLook.CORNER_DEFAULT)
+                BriefLook.setListFontPct(context, 100f)
+                BriefLook.setShortenTitles(context, false)
             }
         ) {
             Text(stringResource(R.string.list_look_reset))
         }
+    }
+    SettingGroup {
+        SettingItem(
+            title = stringResource(R.string.list_look_shorten),
+            desc = stringResource(R.string.list_look_shorten_desc),
+            onClick = { BriefLook.setShortenTitles(context, !BriefLook.shortenTitles) },
+        ) { me.ash.reader.ui.component.base.RYSwitch(activated = BriefLook.shortenTitles) { BriefLook.setShortenTitles(context, !BriefLook.shortenTitles) } }
     }
 }
 
@@ -190,6 +212,13 @@ fun BottomBarSections() {
         )
         TextButton(onClick = { BriefLook.resetBar(context) }) { Text(stringResource(R.string.list_look_reset)) }
     }
+    SettingGroup {
+        SettingItem(
+            title = stringResource(R.string.bottom_bar_compact),
+            desc = stringResource(R.string.bottom_bar_compact_desc),
+            onClick = { BriefLook.setCompactBar(context, !BriefLook.compactBar) },
+        ) { me.ash.reader.ui.component.base.RYSwitch(activated = BriefLook.compactBar) { BriefLook.setCompactBar(context, !BriefLook.compactBar) } }
+    }
 }
 
 /** Brief You: how the glass looks, with every part adjustable. Shown under the glass switch. */
@@ -226,4 +255,48 @@ fun GlassCustomSections() {
         ) { me.ash.reader.ui.component.base.RYSwitch(activated = g.outlineOn()) { g.setOutline(context, !g.outlineOn()) } }
     }
     TextButton(modifier = Modifier.padding(horizontal = 16.dp), onClick = { g.reset(context) }) { Text(stringResource(R.string.list_look_reset)) }
+}
+
+
+/** A sample article row that follows the list settings (text size, short titles, picture size and corners) as they change. */
+@Composable
+private fun ListLookPreview() {
+    val scale = BriefLook.listFontPct / 100f
+    val title = MaterialTheme.typography.titleMedium
+    val body = MaterialTheme.typography.bodySmall
+    Surface(
+        shape = androidx.compose.foundation.shape.RoundedCornerShape(Corner.Card),
+        color = MaterialTheme.colorScheme.surfaceContainerHigh,
+        modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth(),
+    ) {
+        Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.Top) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text("The Daily Example · 2h", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(
+                    "A long headline that shows how many lines the article titles are given in the list",
+                    style = title.copy(fontSize = title.fontSize * scale, lineHeight = title.lineHeight * scale),
+                    maxLines = if (BriefLook.shortenTitles) 2 else 4,
+                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                    modifier = Modifier.padding(top = 4.dp),
+                )
+                Text(
+                    "A short description of the article appears here under the title, in smaller text.",
+                    style = body.copy(fontSize = body.fontSize * scale, lineHeight = body.lineHeight * scale),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 2,
+                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                    modifier = Modifier.padding(top = 4.dp),
+                )
+            }
+            if (BriefLook.mode == ListMode.Magazine) {
+                Box(
+                    Modifier
+                        .padding(start = 10.dp)
+                        .size(BriefLook.imageSize.dp)
+                        .clip(androidx.compose.foundation.shape.RoundedCornerShape(BriefLook.corner.dp))
+                        .background(MaterialTheme.colorScheme.secondaryContainer)
+                )
+            }
+        }
+    }
 }
