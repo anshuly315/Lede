@@ -8,7 +8,16 @@ import android.os.Build
 import android.view.SoundEffectConstants
 import androidx.compose.foundation.background
 import androidx.compose.ui.unit.sp
-import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.waitForUpOrCancellation
+import androidx.compose.foundation.interaction.PressInteraction
+import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.semantics.onClick
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
@@ -139,6 +148,7 @@ fun BriefFilterBar(
                 Filter.values.forEach { item ->
                     val selected = filter == item
                     val itemName = item.toName()
+                    val latestClick by androidx.compose.runtime.rememberUpdatedState(filterOnClick)
                     val chip by androidx.compose.animation.animateColorAsState(
                         targetValue = if (selected) (if (glassBar) MaterialTheme.colorScheme.primary.copy(alpha = 0.30f) else indicatorColor) else Color.Transparent,
                         label = "compactChip",
@@ -171,10 +181,29 @@ fun BriefFilterBar(
                             }
                             .clip(RoundedCornerShape(if (classic) 16.dp else 50.dp))
                             .background(if (!selected && chipPressed) (if (glassBar) MaterialTheme.colorScheme.primary.copy(alpha = 0.18f) else indicatorColor.copy(alpha = 0.5f)) else chip)
-                            .selectable(selected = selected, interactionSource = chipInteraction, indication = null, role = androidx.compose.ui.semantics.Role.Tab) {
-                                view.playSoundEffect(SoundEffectConstants.CLICK)
-                                me.ash.reader.brief.perf.PerfLog.action("Compact bar: tap on $itemName")
-                                filterOnClick(item)
+                            // Brief You: the tap fires when the finger lifts, read before anything else can take the touch
+                            // (the plain selectable lost taps on the tabs that weren't selected on Feeds).
+                            .pointerInput(item) {
+                                awaitEachGesture {
+                                    val down = awaitFirstDown(requireUnconsumed = false, pass = PointerEventPass.Initial)
+                                    val press = PressInteraction.Press(down.position)
+                                    chipInteraction.tryEmit(press)
+                                    val up = waitForUpOrCancellation(pass = PointerEventPass.Initial)
+                                    if (up != null) {
+                                        chipInteraction.tryEmit(PressInteraction.Release(press))
+                                        view.playSoundEffect(SoundEffectConstants.CLICK)
+                                        me.ash.reader.brief.perf.PerfLog.action("Compact bar: tap on $itemName")
+                                        latestClick(item)
+                                    } else {
+                                        chipInteraction.tryEmit(PressInteraction.Cancel(press))
+                                        me.ash.reader.brief.perf.PerfLog.action("Compact bar: touch cancelled on $itemName")
+                                    }
+                                }
+                            }
+                            .semantics {
+                                role = androidx.compose.ui.semantics.Role.Tab
+                                this.selected = selected
+                                onClick { latestClick(item); true }
                             }
                             .defaultMinSize(minWidth = 48.dp, minHeight = 40.dp)
                             .padding(horizontal = 14.dp),
