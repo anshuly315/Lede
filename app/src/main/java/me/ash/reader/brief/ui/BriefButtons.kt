@@ -289,6 +289,7 @@ fun BriefDropdownMenu(
         expanded = expanded,
         onDismissRequest = onDismissRequest,
         modifier = modifier,
+        shape = RoundedCornerShape(if (classic) 4.dp else 16.dp),
         containerColor = if (glass) base.copy(alpha = 0.78f) else base,
         border = if (classic || glass) BorderStroke(0.5.dp, androidx.compose.material3.MaterialTheme.colorScheme.outlineVariant) else null,
         shadowElevation = if (classic) 0.dp else 3.dp,

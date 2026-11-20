@@ -79,6 +79,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -119,7 +120,8 @@ fun AddFeedPage(
     var browsing by rememberSaveable { mutableStateOf(false) }
     val category = categoryId?.let { FeedCatalogue.Category.of(it) }
     var country by remember { mutableStateOf(AddFeedPrefs.country(context)) }
-    var language by remember { mutableStateOf(AddFeedPrefs.language(context)) }
+    // Brief You: no language filter here any more (articles in other languages are read with the AI translation).
+    val language = ""
     var picked by rememberSaveable { mutableStateOf<String?>(null) }
     var resolving by remember { mutableStateOf(false) }
     var error by remember { mutableStateOf<String?>(null) }
@@ -181,7 +183,7 @@ fun AddFeedPage(
                 Column(
                     modifier = Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)
                 ) {
-                    // Sources from / Language
+                    // Sources from
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
                             stringResource(R.string.add_page_sources_from),
@@ -197,23 +199,6 @@ fun AddFeedPage(
                             onPick = {
                                 country = it
                                 AddFeedPrefs.setCountry(context, it)
-                            },
-                        )
-                        Spacer(Modifier.weight(1f))
-                        Text(
-                            stringResource(R.string.add_page_language),
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
-                        Spacer(Modifier.width(8.dp))
-                        PickerChip(
-                            value = language.ifEmpty { stringResource(R.string.add_page_all_languages) },
-                            options = listOf(FeedCatalogue.ALL) + FeedCatalogue.languages(context),
-                            label = { it.ifEmpty { stringResource(R.string.add_page_all_languages) } },
-                            selected = language,
-                            onPick = {
-                                language = it
-                                AddFeedPrefs.setLanguage(context, it)
                             },
                         )
                     }
@@ -536,7 +521,9 @@ private fun GroupPicker(
     onCreate: () -> Unit,
 ) {
     var open by remember { mutableStateOf(false) }
-    Box {
+    var anchorWidth by remember { mutableStateOf(0.dp) }
+    val density = androidx.compose.ui.platform.LocalDensity.current
+    Box(modifier = Modifier.onSizeChanged { anchorWidth = with(density) { it.width.toDp() } }) {
         Surface(
             shape = RoundedCornerShape(14.dp),
             color = MaterialTheme.colorScheme.background,
@@ -553,7 +540,7 @@ private fun GroupPicker(
                 Icon(Icons.Rounded.ArrowDropDown, contentDescription = null)
             }
         }
-        BriefDropdownMenu(expanded = open, onDismissRequest = { open = false }) {
+        BriefDropdownMenu(expanded = open, onDismissRequest = { open = false }, modifier = Modifier.width(anchorWidth)) {
             groups.forEach { g ->
                 DropdownMenuItem(
                     text = { Text(g.name) },

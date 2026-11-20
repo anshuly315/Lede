@@ -56,6 +56,8 @@ object BriefLook {
     fun autoBarSide() = if (classic) 0f else 20f
     fun barHeightDp(labels: Boolean) = if (barHeight >= 0f) barHeight else autoBarHeight(labels)
     fun barSideDp() = if (barSide >= 0f) barSide else autoBarSide()
+    /** Classic bar corners: square at the screen edge, rounding off as the bar moves in from the sides (a pill from 20 dp). */
+    fun classicBarCorner(): Float = (barSideDp() * 1.6f).coerceIn(0f, 32f)
 
     fun setBarHeight(context: Context, value: Float) {
         init(context); barHeight = value.coerceIn(48f, 100f)

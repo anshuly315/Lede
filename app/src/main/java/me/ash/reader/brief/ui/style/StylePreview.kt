@@ -39,7 +39,7 @@ fun StylePreview(modifier: Modifier = Modifier) {
     val barHeight = (BriefLook.barHeightDp(true) * 0.4f).dp
     val side = (BriefLook.barSideDp() * 0.4f).dp
     val bottom = (BriefLook.barBottom * 0.4f).dp
-    val barShape = if (classic) androidx.compose.ui.graphics.RectangleShape else RoundedCornerShape(12.dp)
+    val barShape = if (classic) RoundedCornerShape((BriefLook.classicBarCorner() * 12f / 32f).dp) else RoundedCornerShape(12.dp)
     Box(modifier = modifier.fillMaxSize()) {
         // The page behind the bar. With glass on it gets colourful stripes, so the glass has something to show.
         Column(

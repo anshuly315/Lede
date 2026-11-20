@@ -45,6 +45,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 
 /*
@@ -81,47 +82,45 @@ fun BriefSlider(
 ) {
     val state = androidx.compose.runtime.remember(steps, valueRange) { androidx.compose.material3.SliderState(value, steps, valueRange) }
     state.value = value
-    if (me.ash.reader.brief.ui.style.BriefStyle.design == me.ash.reader.brief.ui.style.DesignStyle.Classic) {
-        // Classic: a thin straight line with a small round handle, like Smart RSS.
-        val active = androidx.compose.material3.MaterialTheme.colorScheme.primary
-        val inactive = androidx.compose.material3.MaterialTheme.colorScheme.outlineVariant
-        androidx.compose.material3.Slider(
-            state = state,
-            onValueChange = onValueChange,
-            modifier = modifier,
-            onValueChangeFinished = onValueChangeFinished,
-            thumb = { _: androidx.compose.material3.SliderState ->
-                androidx.compose.foundation.layout.Box(
-                    Modifier
-                        .size(14.dp)
-                        .background(active, CircleShape)
-                )
-            },
-            track = { sliderState: androidx.compose.material3.SliderState ->
-                val span = (valueRange.endInclusive - valueRange.start).coerceAtLeast(0.0001f)
-                val fraction = ((sliderState.value - valueRange.start) / span).coerceIn(0f, 1f)
-                androidx.compose.foundation.layout.Box(
-                    Modifier
-                        .fillMaxWidth()
-                        .height(2.dp)
-                        .background(inactive)
-                ) {
-                    androidx.compose.foundation.layout.Box(
-                        Modifier
-                            .fillMaxWidth(fraction)
-                            .height(2.dp)
-                            .background(active)
-                    )
-                }
-            },
-        )
-        return
-    }
+    // Classic: a thin straight line with a small round handle, like Smart RSS. Expressive: a
+    // slim rounded track with a short pill handle (Material's own is much bulkier).
+    val classic = me.ash.reader.brief.ui.style.BriefStyle.design == me.ash.reader.brief.ui.style.DesignStyle.Classic
+    val active = androidx.compose.material3.MaterialTheme.colorScheme.primary
+    val inactive =
+        if (classic) androidx.compose.material3.MaterialTheme.colorScheme.outlineVariant
+        else androidx.compose.material3.MaterialTheme.colorScheme.secondaryContainer
+    val trackHeight = if (classic) 2.dp else 8.dp
+    val trackShape = if (classic) androidx.compose.ui.graphics.RectangleShape else CircleShape
     androidx.compose.material3.Slider(
         state = state,
         onValueChange = onValueChange,
         modifier = modifier,
         onValueChangeFinished = onValueChangeFinished,
+        thumb = { _: androidx.compose.material3.SliderState ->
+            if (classic) {
+                androidx.compose.foundation.layout.Box(Modifier.size(14.dp).background(active, CircleShape))
+            } else {
+                androidx.compose.foundation.layout.Box(Modifier.width(5.dp).height(28.dp).background(active, CircleShape))
+            }
+        },
+        track = { sliderState: androidx.compose.material3.SliderState ->
+            val span = (valueRange.endInclusive - valueRange.start).coerceAtLeast(0.0001f)
+            val fraction = ((sliderState.value - valueRange.start) / span).coerceIn(0f, 1f)
+            androidx.compose.foundation.layout.Box(
+                Modifier
+                    .fillMaxWidth()
+                    .height(trackHeight)
+                    .clip(trackShape)
+                    .background(inactive)
+            ) {
+                androidx.compose.foundation.layout.Box(
+                    Modifier
+                        .fillMaxWidth(fraction)
+                        .height(trackHeight)
+                        .background(active)
+                )
+            }
+        },
     )
 }
 
