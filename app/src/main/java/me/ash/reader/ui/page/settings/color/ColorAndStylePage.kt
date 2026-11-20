@@ -93,6 +93,7 @@ fun ColorAndStylePage(
     navigateToDarkTheme: () -> Unit,
     navigateToFeedsPageStyle: () -> Unit,
     navigateToFlowPageStyle: () -> Unit,
+    navigateToBottomBar: () -> Unit = {}, // Brief You
     navigateToReadingPageStyle: () -> Unit,
 ) {
     val context = LocalContext.current
@@ -218,12 +219,14 @@ fun ColorAndStylePage(
                     )
                     me.ash.reader.brief.ui.SettingGroup { // Brief You: the section as one joined card
                     SettingItem(
-                        title = stringResource(R.string.feeds_page),
-                        onClick = navigateToFeedsPageStyle,
+                        title = stringResource(R.string.lists_page),
+                        desc = stringResource(R.string.lists_page_desc),
+                        onClick = navigateToFlowPageStyle,
                     ) {}
                     SettingItem(
-                        title = stringResource(R.string.flow_page),
-                        onClick = navigateToFlowPageStyle,
+                        title = stringResource(R.string.bottom_bar),
+                        desc = stringResource(R.string.bottom_bar_page_desc),
+                        onClick = navigateToBottomBar,
                     ) {}
                     SettingItem(
                         title = stringResource(R.string.reading_page),

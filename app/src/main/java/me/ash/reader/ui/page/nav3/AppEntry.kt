@@ -253,6 +253,7 @@ fun AppEntry(backStack: NavBackStack<NavKey>) {
                                 navigateToDarkTheme = { backStack.add(Route.DarkTheme) },
                                 navigateToFeedsPageStyle = { backStack.add(Route.FeedsPageStyle) },
                                 navigateToFlowPageStyle = { backStack.add(Route.FlowPageStyle) },
+                                navigateToBottomBar = { backStack.add(Route.BottomBar) }, // Brief You
                                 navigateToReadingPageStyle = {
                                     backStack.add(Route.ReadingPageStyle)
                                 },
@@ -261,6 +262,7 @@ fun AppEntry(backStack: NavBackStack<NavKey>) {
                     Route.DarkTheme -> NavEntry(key) { DarkThemePage(onBack = onBack) }
                     Route.FeedsPageStyle -> NavEntry(key) { FeedsPageStylePage(onBack = onBack) }
                     Route.FlowPageStyle -> NavEntry(key) { FlowPageStylePage(onBack = onBack) }
+                    Route.BottomBar -> NavEntry(key) { me.ash.reader.brief.ui.style.BottomBarPage(onBack = onBack) } // Brief You
                     Route.ReadingPageStyle ->
                         NavEntry(key) {
                             ReadingStylePage(

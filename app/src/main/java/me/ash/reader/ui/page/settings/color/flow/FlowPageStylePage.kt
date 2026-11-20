@@ -41,6 +41,7 @@ fun FlowPageStylePage(
     val articleListTonalElevation = LocalFlowArticleListTonalElevation.current
     val articleListReadIndicator = LocalFlowArticleListReadIndicator.current
     val sortUnreadArticles = LocalSortUnreadArticles.current
+    val groupListExpand = LocalFeedsGroupListExpand.current // Brief You
 
     val settings = LocalSettings.current
     val pullToSwitchFeed = settings.pullToSwitchFeed
@@ -73,7 +74,7 @@ fun FlowPageStylePage(
         content = {
             LazyColumn {
                 item {
-                    DisplayText(text = stringResource(R.string.flow_page), desc = "")
+                    DisplayText(text = stringResource(R.string.lists_page), desc = "") // Brief You: Lists
                 }
 
                 // Preview (Brief You: it stays on screen while you scroll, so every change shows at once)
@@ -107,26 +108,6 @@ fun FlowPageStylePage(
                         }
                         Spacer(modifier = Modifier.height(12.dp))
                     }
-                }
-
-                // Top Bar
-                item {
-                    Subtitle(
-                        modifier = Modifier.padding(horizontal = 24.dp),
-                        text = stringResource(R.string.top_bar)
-                    )
-                    me.ash.reader.brief.ui.SettingGroup { // Brief You: the section as one joined card
-                    // Brief You: "Mark as read button position" is hidden until it works
-                    SettingItem(
-                        title = stringResource(R.string.tonal_elevation),
-                        desc = "${topBarTonalElevation.value}dp",
-                        onClick = {
-                            topBarTonalElevationDialogVisible = true
-                        },
-                    ) {}
-                    } // Brief You
-                    Tips(text = stringResource(R.string.tips_top_bar_tonal_elevation))
-                    Spacer(modifier = Modifier.height(24.dp))
                 }
 
                 // Article List
@@ -217,48 +198,25 @@ fun FlowPageStylePage(
                         },
                     )
 
-                    SettingItem(
-                        title = stringResource(R.string.tonal_elevation),
-                        desc = "${articleListTonalElevation.value}dp",
-                        onClick = {
-                            articleListTonalElevationDialogVisible = true
-                        },
-                    ) {}
                     } // Brief You
-                    Tips(text = stringResource(R.string.tips_article_list_tonal_elevation))
                     Spacer(modifier = Modifier.height(24.dp))
                 }
 
-                // Filter Bar
+                // Brief You: the Feeds page's one list setting lives here too; the bottom bar has its own page
                 item {
                     Subtitle(
                         modifier = Modifier.padding(horizontal = 24.dp),
-                        text = stringResource(R.string.filter_bar),
+                        text = stringResource(R.string.feeds_page),
                     )
-                    me.ash.reader.brief.ui.SettingGroup { // Brief You: the section as one joined card
-                    SettingItem(
-                        title = stringResource(R.string.style),
-                        desc = filterBarStyle.toDesc(context),
-                        onClick = {
-                            filterBarStyleDialogVisible = true
-                        },
-                    ) {}
-                    SettingItem(
-                        title = stringResource(R.string.horizontal_padding),
-                        desc = "${filterBarPadding}dp",
-                        onClick = {
-                            filterBarPaddingValue = filterBarPadding
-                            filterBarPaddingDialogVisible = true
-                        },
-                    ) {}
-                    SettingItem(
-                        title = stringResource(R.string.tonal_elevation),
-                        desc = "${filterBarTonalElevation.value}dp",
-                        onClick = {
-                            filterBarTonalElevationDialogVisible = true
-                        },
-                    ) {}
-                    } // Brief You
+                    me.ash.reader.brief.ui.SettingGroup {
+                        SettingItem(
+                            title = stringResource(R.string.always_expand),
+                            onClick = { (!groupListExpand).put(context, scope) },
+                        ) {
+                            RYSwitch(activated = groupListExpand.value) { (!groupListExpand).put(context, scope) }
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(24.dp))
                 }
                 item { // Brief You: view mode, density, picture size and corners
                     Spacer(modifier = Modifier.height(24.dp))

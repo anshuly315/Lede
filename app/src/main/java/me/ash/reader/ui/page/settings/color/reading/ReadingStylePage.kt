@@ -210,19 +210,7 @@ fun ReadingStylePage(
                         })
                     }
                     } // Brief You
-                    Subtitle(
-                        modifier = Modifier.padding(horizontal = 24.dp),
-                        text = stringResource(R.string.toolbars)
-                    )
-                    me.ash.reader.brief.ui.SettingGroup { // Brief You: the section as one joined card
-                    SettingItem(
-                        title = stringResource(R.string.tonal_elevation),
-                        desc = "${tonalElevation.value}dp",
-                        onClick = {
-                            tonalElevationDialogVisible = true
-                        },
-                    ) {}
-                    } // Brief You
+                    // Brief You: the toolbars' tonal elevation is no longer shown (it has no visible effect in Classic)
 
                     Spacer(modifier = Modifier.height(24.dp))
                 }

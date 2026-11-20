@@ -658,6 +658,9 @@
     <string name="glass_outline_desc">A thin light edge around the glass</string>
     <string name="glass_reading">Glass on the article page</string>
     <string name="glass_reading_desc">May flicker while scrolling an article. Off by default.</string>
+    <string name="lists_page">Lists</string>
+    <string name="lists_page_desc">Article rows, pictures, text size, sorting</string>
+    <string name="bottom_bar_page_desc">Style, compact bar, thickness and spacing</string>
     <string name="for_you">For you</string>
     <string name="for_you_add_topic">Add topic</string>
     <string name="for_you_add">Add</string>
