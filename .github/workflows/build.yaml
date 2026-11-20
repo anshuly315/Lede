@@ -20,12 +20,12 @@ on:
     workflow_call:
         inputs:
             nightly:
-                description: "Build Brief You Nightly and publish it as the Nightly prerelease"
+                description: "Build Lede Nightly and publish it as the Nightly prerelease"
                 type: boolean
                 default: false
 
 env:
-    # The build type: release for Brief You, nightly for Brief You Nightly.
+    # The build type: release for Lede, nightly for Lede Nightly.
     VARIANT: ${{ inputs.nightly && 'nightly' || 'release' }}
 
 jobs:
@@ -80,9 +80,9 @@ jobs:
                       echo "::error title=Signing::No KEYSTORE_BASE64 secret: the build stops instead of using Read You's public key."
                       exit 1
                   fi
-                  echo "$KEYSTORE_BASE64" | base64 -d > signature/briefyou-release.jks
+                  echo "$KEYSTORE_BASE64" | base64 -d > signature/lede-release.jks
                   {
-                      echo "storeFile=../signature/briefyou-release.jks"
+                      echo "storeFile=../signature/lede-release.jks"
                       echo "storePassword=$KEYSTORE_PASSWORD"
                       echo "keyPassword=$KEYSTORE_PASSWORD"
                       echo "keyAlias=${KEY_ALIAS:-briefyou}"
@@ -102,14 +102,14 @@ jobs:
                       ./gradlew "assembleGithub${VARIANT^}" $skip --stacktrace --refresh-dependencies 2>&1 | tee build.log
                   fi
             - name: Name the APK
-              # BriefYou-<version>-<commit>.apk (0.16.2.36, or 0.16.2.137-nightly). AGP 9 removed the
+              # Lede-<version>-<commit>.apk (0.16.2.36, or 0.16.2.137-nightly). AGP 9 removed the
               # old variant API the build file used to name it with.
               run: |
                   readyou=$(grep -m1 'versionName = "' app/build.gradle.kts | sed -E 's/.*"([^"]+)".*/\1/')
                   suffix=""; [ "$VARIANT" = "nightly" ] && suffix="-nightly"
                   dir="app/build/outputs/apk/github/$VARIANT"
                   for f in "$dir"/*.apk; do
-                      mv "$f" "$dir/BriefYou-${readyou}.${CI_BUILD_NUMBER}${suffix}-$(git rev-parse --short HEAD).apk"
+                      mv "$f" "$dir/Lede-${readyou}.${CI_BUILD_NUMBER}${suffix}-$(git rev-parse --short HEAD).apk"
                   done
                   ls "$dir"
             - name: Summarise warnings
@@ -172,14 +172,14 @@ jobs:
                   apk=$(ls app/build/outputs/apk/github/nightly/*.apk | head -1)
                   readyou=$(grep -m1 'versionName = "' app/build.gradle.kts | sed -E 's/.*"([^"]+)".*/\1/')
                   {
-                      echo "Brief You Nightly: a test build of \`${{ github.ref_name }}\` at ${GITHUB_SHA::7}. It installs next to Brief You, with its own data."
+                      echo "Lede Nightly: a test build of \`${{ github.ref_name }}\` at ${GITHUB_SHA::7}. It installs next to Lede, with its own data."
                       echo
                       echo "### Changes"
                       git log -1 --format='%s%n%n%b' | grep -vE '^(Co-Authored-By|Claude-Session):'
                   } > notes.md
                   gh release delete nightly --cleanup-tag --yes 2>/dev/null || true
                   gh release create nightly "$apk" \
-                      --title "Brief You Nightly ${readyou}.${CI_BUILD_NUMBER}" \
+                      --title "Lede Nightly ${readyou}.${CI_BUILD_NUMBER}" \
                       --notes-file notes.md \
                       --target "$GITHUB_SHA" \
                       --prerelease \
@@ -213,7 +213,7 @@ jobs:
                       git log -1 --format='%s%n%n%b' | grep -vE '^(Co-Authored-By|Claude-Session):'
                   } > notes.md
                   gh release create "$tag" "$apk" \
-                      --title "Brief You ${tag}" \
+                      --title "Lede ${tag}" \
                       --notes-file notes.md \
                       --target "$GITHUB_SHA" \
                       --latest

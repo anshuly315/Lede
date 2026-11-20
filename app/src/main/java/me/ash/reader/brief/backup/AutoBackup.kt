@@ -50,7 +50,7 @@ import me.ash.reader.ui.page.settings.SettingItem
 object AutoBackup {
     private const val PREFS = "auto_backup"
     private const val WORK = "auto_backup"
-    private const val NAME_PREFIX = "BriefYou-backup-"
+    private const val NAME_PREFIX = "Lede-backup-"
 
     enum class Frequency { Off, Daily, Weekly }
 

@@ -1,8 +1,8 @@
 <div align="center">
-<picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/readme/hero-dark.svg"><img alt="Brief You: a calm, private RSS reader for Android, with AI that runs on your phone. A fork of Read You." src=".github/assets/readme/hero-light.svg" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/readme/hero-dark.svg"><img alt="Lede: a calm, private RSS reader for Android, with AI that runs on your phone. A fork of Read You." src=".github/assets/readme/hero-light.svg" width="100%"></picture>
 <p>
 <a href="../../releases/latest"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/badges/download-dark.svg"><img alt="Download APK" src=".github/assets/badges/download-light.svg" height="56"></picture></a>
-<a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/Humorist2601/BriefYou"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/badges/obtainium-dark.svg"><img alt="Get it on Obtainium" src=".github/assets/badges/obtainium-light.svg" height="56"></picture></a>
+<a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/anshuly315/Lede"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/badges/obtainium-dark.svg"><img alt="Get it on Obtainium" src=".github/assets/badges/obtainium-light.svg" height="56"></picture></a>
 </p>
 <p>
 <picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/badges/ai-dark.svg"><img alt="On-device AI" src=".github/assets/badges/ai-light.svg" height="36"></picture>
@@ -21,9 +21,9 @@
 <picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/readme/card-backup-dark.svg"><img alt="Full backup: everything in one file" src=".github/assets/readme/card-backup-light.svg" width="32%"></picture>
 </p>
 
-Brief You is a fork of [Read You](https://github.com/ReadYouApp/ReadYou). It keeps everything that makes Read You great (Material You design, Reeder-style reading, FreshRSS, Miniflux, Fever, Google Reader API and more) and adds AI that runs **entirely on your phone**: articles and questions never leave it. It installs **next to** Read You (app ID `com.ay.briefyou`); move your feeds over with OPML. It also fixes a few Read You bugs: read state that could go back to unread ([#1254](https://github.com/ReadYouApp/ReadYou/issues/1254)), *Mark as read on scroll* marking articles you never saw ([#1274](https://github.com/ReadYouApp/ReadYou/issues/1274)), pictures blocked by hotlink protection ([#1347](https://github.com/ReadYouApp/ReadYou/issues/1347)), and automatic sync that stops after the phone's clock is set ahead and back.
+Lede is built on [Brief You](https://github.com/Humorist2601/BriefYou), a fork of [Read You](https://github.com/ReadYouApp/ReadYou). It keeps everything that makes Read You great (Material You design, Reeder-style reading, FreshRSS, Miniflux, Fever, Google Reader API and more) and adds AI that runs **entirely on your phone**: articles and questions never leave it. It installs **next to** Read You (app ID `com.ay.lede`); move your feeds over with OPML. It also fixes a few Read You bugs: read state that could go back to unread ([#1254](https://github.com/ReadYouApp/ReadYou/issues/1254)), *Mark as read on scroll* marking articles you never saw ([#1274](https://github.com/ReadYouApp/ReadYou/issues/1274)), pictures blocked by hotlink protection ([#1347](https://github.com/ReadYouApp/ReadYou/issues/1347)), and automatic sync that stops after the phone's clock is set ahead and back.
 
-<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/screenshots-dark.png"><img alt="Brief You screenshots: feeds, reading, a podcast, a video, Triage, AI gist, Filters and Reading stats" src=".github/assets/screenshots.png" width="80%"></picture></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/screenshots-dark.png"><img alt="Lede screenshots: feeds, reading, a podcast, a video, Triage, AI gist, Filters and Reading stats" src=".github/assets/screenshots.png" width="80%"></picture></p>
 
 ## What's different from Read You
 
@@ -61,7 +61,7 @@ Brief You is a fork of [Read You](https://github.com/ReadYouApp/ReadYou). It kee
 - Pictures in the text get a box of their own size with the app's shape-changing loading indicator, and fade in.
 - Read later: share a link to *Read Later* (or to *Add Feed* to subscribe to its feed). The page is saved with its full text as a starred article in a *Saved Articles* feed; a small sheet confirms it and closes by itself. If the page can't be loaded (offline, blocked, or a file like a PDF), the link is saved instead. Local accounts only.
 - Offline copies: every starred article (including Read later and Triage saves) keeps its pictures, and its full text for feeds set to Full content, on the phone, so it opens without the internet. Downloads in the background on Wi-Fi by default; a setting in Account → Syncing chooses off, mobile data only, Wi-Fi only or both. Unstarring removes the copy.
-- App updates download inside the app: the update dialog's Download button fetches the new version in the background (with a progress notification that survives closing the app and dropped connections), then Install opens Android's installer. The first install may ask you to allow Brief You to install apps. A switch in Tips & support turns off the check for updates at start (tapping the version still checks).
+- App updates download inside the app: the update dialog's Download button fetches the new version in the background (with a progress notification that survives closing the app and dropped connections), then Install opens Android's installer. The first install may ask you to allow Lede to install apps. A switch in Tips & support turns off the check for updates at start (tapping the version still checks).
 - Newsletters read as feeds (through an email-to-feed service such as Kill the Newsletter) read like articles: the email's layout boxes, hidden preview text, tracking pixels, social links and preference footers are removed, its big text becomes headings, and sharing uses the issue's public web page instead of your private feed address. The **Tidy newsletters** switch (Settings → Reading page) adds more: wide banners and tracking images at the top are dropped, the headline isn't repeated under the title, email buttons (such as "Read more on CFR.org") stay as outlined buttons, and divider lines and bordered notes are kept. Off shows the plain article. Your text alignment and bold-heading settings are never overridden.
 - Reading page settings that were greyed out or empty in Read You now work in the web reader: **Subhead alignment** (Title page), **Image horizontal padding** and **Maximize** (Images page), and a **Videos** page with rounded corners, horizontal padding and Maximize (corners and padding follow the image settings until you set them). "Mark as read button position" and "Rearrange buttons", which never worked, are hidden.
 - Number settings (font size, line height, letter spacing, paddings, rounded corners) open as a sheet like the speed one: the value large between − and +, a slider, **Custom value** (type the number straight into the big value, even past the slider) and **Reset to the default**.
@@ -133,7 +133,7 @@ Brief You is a fork of [Read You](https://github.com/ReadYouApp/ReadYou). It kee
 - *All caught up* only when nothing is unread anywhere, including cards you skipped or left behind, with the run's read, saved and skipped totals (skipped = swiped down; cards left behind by jumping aren't skipped).
 - The groups sheet lists every group in the run, laid out like the Feeds page: jump to any of them, or skip this one. Cards you leave stay unread. The arrow on a group opens its feeds; tap a feed to Triage just that feed, and the run carries on through the next feeds. Undo on that feed's first card returns to the group. In a run of feeds the sheet lists the groups too, with the feed you're on open inside its group: tap a group to go back to it, or another feed to switch.
 - Top right, Auto-advance and Undo share one joined pill, like the other screens; while auto-advance runs it becomes a circle with its countdown ring.
-- The shared picture is drawn just for sharing: the feed and date, the picture, title and a few lines (or the summary's points), the site and the Brief You icon, on a soft backdrop in your colours.
+- The shared picture is drawn just for sharing: the feed and date, the picture, title and a few lines (or the summary's points), the site and the Lede icon, on a soft backdrop in your colours.
 - The four buttons at the bottom and the Next up card squeeze when pressed and spring back.
 - Auto-advance pauses while you hold a card, while a card shows its summary and while the groups sheet is open: the button turns grey and its ring stops where it was, then carries on. Long press the button (in the pill or as the circle) to choose the delay (3–30 s, 5 by default).
 - Haptics mark the swipe threshold, each choice, Undo and finishing the stack.
@@ -211,21 +211,21 @@ Brief You is a fork of [Read You](https://github.com/ReadYouApp/ReadYou). It kee
 
 <p><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/readme/h-backup-dark.svg"><img alt="Backup and updates" src=".github/assets/readme/h-backup-light.svg" width="100%"></picture></p>
 
-<p><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/readme/t-backup-dark.svg"><img alt="Full backup and restore: Feeds, starred articles, filters and settings in one file. Own updates: The app checks Brief You’s releases, never Read You’s. Signed releases: Every push to main is built and published as Brief You 0.16.2.N. Brief You Nightly: Test builds as their own app, next to Brief You. Reviewed Read You updates: Read You’s changes arrive as a pull request to review." src=".github/assets/readme/t-backup-light.svg" width="100%"></picture></p>
+<p><picture><source media="(prefers-color-scheme: dark)" srcset=".github/assets/readme/t-backup-dark.svg"><img alt="Full backup and restore: Feeds, starred articles, filters and settings in one file. Own updates: The app checks Lede’s releases, never Read You’s. Signed releases: Every push to main is built and published as Lede 0.16.2.N. Lede Nightly: Test builds as their own app, next to Lede. Reviewed Read You updates: Read You’s changes arrive as a pull request to review." src=".github/assets/readme/t-backup-light.svg" width="100%"></picture></p>
 
 <details>
 <summary>More details</summary>
 
 - The backup also has sync settings and AI instructions.
 - *Account → Advanced → Automatic backup* saves the same backup into a folder you pick, daily or weekly (off by default), while the phone charges. It keeps the newest 5 files (1 to 30), and *Back up now* makes one right away. The files outlive the app.
-- Every other branch is built as **Brief You Nightly**, with a night-sky icon, published as the one *Nightly* prerelease.
+- Every other branch is built as **Lede Nightly**, with a night-sky icon, published as the one *Nightly* prerelease.
 - Back up in *Account → Advanced → Back up everything*. It also includes custom feed and group icons, feed and group order, the Triage delay and the read-aloud speed.
 - Restore adds everything back on any phone: feeds you already have are kept, feeds go into your existing groups, and starred articles come back even if their feed dropped them. Server logins and the AI model aren't included.
 - Release names are Read You's version plus a rising build number, so each APK installs as an update (works with Obtainium). The notes say which Read You version a build is based on.
 - APKs are for 64-bit ARM phones (arm64-v8a).
-- Builds are signed with Brief You's own key when the repository has the `KEYSTORE_BASE64`, `KEYSTORE_PASSWORD` and `KEY_ALIAS` secrets.
+- Builds are signed with Lede's own key when the repository has the `KEYSTORE_BASE64`, `KEYSTORE_PASSWORD` and `KEY_ALIAS` secrets.
 - Brief You updates: a daily workflow only reads new commits from [Brief You](https://github.com/Humorist2601/BriefYou) (the app Lede started from), merges them into a `brief-you-sync` branch here and opens (or updates) a pull request called *Brief You update*. Nothing is ever pushed to Brief You, and nothing is built or signed until you merge it. For the pull request to open by itself, allow it in *Settings → Actions → General → Allow GitHub Actions to create and approve pull requests*. Delete `.github/workflows/sync.yaml` to stop following it.
-- Brief You Nightly (app ID `com.ay.briefyou.nightly`) has its own data and its own build numbers, so test builds never use up release numbers. Each test build replaces the *Nightly* prerelease, and it doesn't offer Brief You's releases as updates.
+- Lede Nightly (app ID `com.ay.lede.nightly`) has its own data and its own build numbers, so test builds never use up release numbers. Each test build replaces the *Nightly* prerelease, and it doesn't offer Lede's releases as updates.
 - To tidy up, run **Actions → Clean up old releases, tags and runs** by hand. It keeps only the latest of everything: the newest release (and the Nightly), the newest run of each workflow, the kept releases' tags, and branches with work not yet in main (merged branches are deleted). It starts as a dry run that only lists what it would delete.
 
 </details>
@@ -238,18 +238,18 @@ Brief You is a fork of [Read You](https://github.com/ReadYouApp/ReadYou). It kee
 
 Already have the file? **Import** picks a `gemma-4-E2B-it.litertlm` you downloaded yourself.
 
-## How Brief You is organised
+## How Lede is organised
 
-Brief You is kept apart from Read You so Read You's updates merge easily:
+Lede is kept apart from Read You so Read You's updates merge easily:
 
-- **Brief You's own code** lives in `app/src/main/java/me/ash/reader/brief/` (and its own resources, such as `strings_fork.xml`). Read You never touches these files, so they never conflict.
+- **Lede's own code** lives in `app/src/main/java/me/ash/reader/brief/` (and its own resources, such as `strings_fork.xml`). Read You never touches these files, so they never conflict.
 - **Read You's files** are changed only with small hooks, each marked `Brief You`, so a conflict always shows whose line is whose.
-- **Rewritten Read You files** (the reading toolbar, top bar, filter bar, web view, read aloud…) have Brief You's own copy instead; Read You's original stays untouched. They're listed in `.github/fork/copies.txt`, and each *Read You update* pull request lists the ones Read You changed, to copy over by hand.
+- **Rewritten Read You files** (the reading toolbar, top bar, filter bar, web view, read aloud…) have Lede's own copy instead; Read You's original stays untouched. They're listed in `.github/fork/copies.txt`, and each *Read You update* pull request lists the ones Read You changed, to copy over by hand.
 - `.github/fork/fork_check.py` checks this: every build warns about unmarked changes to Read You's files, and each update pull request includes a merge-risk report.
 
 ## About this project
 
-- **A personal fork.** Brief You is a personal project by one person, made for their own use and shared as is. It isn't affiliated with, endorsed by or supported by Read You or its authors, so please don't report Brief You's problems to them; open an issue here instead.
+- **A personal fork.** Lede is a personal project by one person, made for their own use and shared as is. It isn't affiliated with, endorsed by or supported by Read You or its authors, so please don't report Lede's problems to them; open an issue here instead.
 - **Built with AI.** The code, the design work and this README are written with the help of an AI assistant (Claude, by Anthropic), directed, reviewed and tested by the owner. Expect the occasional mistake, and report what you find.
 - **The AI inside the app is separate.** Summaries, gists and Ask come from Gemma running on your phone; nothing is sent to a server (see *On-device AI*).
 
@@ -281,7 +281,7 @@ Settings, Color & Style now has nine colour-scheme styles (Tonal spot, Fidelity,
 
 ## Building
 
-Open the project in [Android Studio](https://developer.android.com/studio) and run it, or build from the command line with `./gradlew assembleGithubRelease` (Brief You Nightly: `./gradlew assembleGithubNightly`).
+Open the project in [Android Studio](https://developer.android.com/studio) and run it, or build from the command line with `./gradlew assembleGithubRelease` (Lede Nightly: `./gradlew assembleGithubNightly`).
 
 ## Credits and license
 
@@ -289,8 +289,8 @@ The reading fonts Atkinson Hyperlegible, Inter, Jost, Poppins and Vollkorn, and 
 
 The glass effect comes from [SimpMusic](https://github.com/maxrave-dev/SimpMusic) by maxrave-dev (GPL-3.0).
 
-Brief You is built on [**Read You**](https://github.com/ReadYouApp/ReadYou) by [Ashinch](https://github.com/Ashinch) and its contributors. All credit for the original app goes to them. If you like the app, consider [supporting Read You](https://ash7.io/sponsor).
+Lede is built on [**Read You**](https://github.com/ReadYouApp/ReadYou) by [Ashinch](https://github.com/Ashinch) and its contributors. All credit for the original app goes to them. If you like the app, consider [supporting Read You](https://ash7.io/sponsor).
 
 **Lede** is an independent project, now developed on its own. It began as a copy of [Brief You](https://github.com/Humorist2601/BriefYou) (by Humorist2601), which is itself built on Read You, and it carries on their history and licence. It is a modified version: the changes are in this repository's commit history. It can follow Brief You's updates but never sends anything back.
 
-Free software under the [**GNU GPL 3.0**](LICENSE). Gemma is provided under Google's Gemma terms; Brief You doesn't include the model, you download it yourself. The README's pictures use [Material Symbols](https://github.com/google/material-design-icons) (Apache 2.0) and Google Sans Flex.
+Free software under the [**GNU GPL 3.0**](LICENSE). Gemma is provided under Google's Gemma terms; Lede doesn't include the model, you download it yourself. The README's pictures use [Material Symbols](https://github.com/google/material-design-icons) (Apache 2.0) and Google Sans Flex.

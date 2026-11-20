@@ -253,7 +253,7 @@ constructor(
             val manifest =
                 entries[MANIFEST]?.let {
                     runCatching { json.decodeFromString<BackupManifest>(String(it)) }.getOrNull()
-                } ?: error("This is not a Brief You backup file")
+                } ?: error("This is not a Lede backup file")
             if (manifest.format > FORMAT) {
                 error("This backup was made by a newer version of the app")
             }
@@ -474,7 +474,7 @@ constructor(
                 result[entry.name] = buffer.toByteArray()
             }
         }
-        if (result.isEmpty()) error("This is not a Brief You backup file")
+        if (result.isEmpty()) error("This is not a Lede backup file")
         return result
     }
 

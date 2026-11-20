@@ -135,7 +135,7 @@ fun BackupSettingItems(accountId: Int, viewModel: BackupViewModel = hiltViewMode
         desc = stringResource(R.string.backup_everything_desc),
         onClick = {
             backupLauncher.launch(
-                "BriefYou-backup-" +
+                "Lede-backup-" +
                     "${Date().toString(DateFormat.YYYY_MM_DD_DASH_HH_MM_SS_DASH)}.zip"
             )
         },
