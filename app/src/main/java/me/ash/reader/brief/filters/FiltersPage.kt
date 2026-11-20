@@ -2,6 +2,7 @@
 
 package me.ash.reader.brief.filters
 
+import me.ash.reader.brief.ui.Corner
 import me.ash.reader.brief.ui.rememberPressFeel
 import androidx.compose.runtime.rememberCoroutineScope
 import me.ash.reader.brief.ui.GoogleSansWideFontFamily
@@ -243,7 +244,7 @@ fun FiltersPage(onBack: () -> Unit, viewModel: FiltersViewModel = hiltViewModel(
                     // as tertiary chips with an eye (tap one to stop watching it) and Add.
                     Surface(
                         color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                        shape = RoundedCornerShape(28.dp),
+                        shape = RoundedCornerShape(Corner.Tile),
                         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
@@ -429,7 +430,7 @@ fun FiltersPage(onBack: () -> Unit, viewModel: FiltersViewModel = hiltViewModel(
                     Surface(
                         color = MaterialTheme.colorScheme.secondaryContainer,
                         contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                        shape = RoundedCornerShape(24.dp),
+                        shape = RoundedCornerShape(Corner.Card),
                         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                     ) {
                         Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -455,7 +456,7 @@ fun FiltersPage(onBack: () -> Unit, viewModel: FiltersViewModel = hiltViewModel(
                     // removable chips with an Add chip at the end, and Apply now at the bottom.
                     Surface(
                         color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                        shape = RoundedCornerShape(28.dp),
+                        shape = RoundedCornerShape(Corner.Tile),
                         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                     ) {
                       Column(modifier = Modifier.padding(16.dp)) {
@@ -581,7 +582,7 @@ fun FiltersPage(onBack: () -> Unit, viewModel: FiltersViewModel = hiltViewModel(
                     Surface(
                         onClick = { viewModel.filters.setHideDuplicates(!dupes) },
                         color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                        shape = RoundedCornerShape(24.dp),
+                        shape = RoundedCornerShape(Corner.Card),
                         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                     ) {
                         Row(
@@ -786,7 +787,7 @@ fun FiltersPage(onBack: () -> Unit, viewModel: FiltersViewModel = hiltViewModel(
                     Surface(
                         color = MaterialTheme.colorScheme.secondaryContainer,
                         contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                        shape = RoundedCornerShape(24.dp),
+                        shape = RoundedCornerShape(Corner.Card),
                         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                     ) {
                         Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -1227,7 +1228,7 @@ private fun ReasonGroupRow(title: String, count: Int, open: Boolean, modifier: M
         onClick = onClick,
         color = if (open) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surfaceContainer,
         contentColor = if (open) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
-        shape = RoundedCornerShape(24.dp),
+        shape = RoundedCornerShape(Corner.Card),
         modifier = modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, bottom = 6.dp),
     ) {
         Row(

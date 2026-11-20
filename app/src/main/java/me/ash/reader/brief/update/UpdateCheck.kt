@@ -63,6 +63,6 @@ fun UpdateCheckSetting() {
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
             )
         }
-        Switch(checked = on, onCheckedChange = { toggle() })
+        me.ash.reader.ui.component.base.RYSwitch(activated = on, onClick = { toggle() })
     }
 }

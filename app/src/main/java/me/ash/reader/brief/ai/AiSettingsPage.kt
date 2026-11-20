@@ -2,6 +2,7 @@
 
 package me.ash.reader.brief.ai
 
+import me.ash.reader.brief.ui.Corner
 import me.ash.reader.brief.ui.OutlinedButton // Brief You
 import androidx.compose.foundation.BorderStroke
 import me.ash.reader.brief.ui.GoogleSansWideFontFamily
@@ -185,7 +186,7 @@ fun AiSettingsPage(onBack: () -> Unit, viewModel: AiSettingsViewModel = hiltView
                     Surface(
                         color = MaterialTheme.colorScheme.secondaryContainer,
                         contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                        shape = RoundedCornerShape(24.dp),
+                        shape = RoundedCornerShape(Corner.Card),
                         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                     ) {
                         Row(
@@ -309,7 +310,7 @@ private fun ModelHero(
     Surface(
         color = container,
         contentColor = content,
-        shape = RoundedCornerShape(32.dp),
+        shape = RoundedCornerShape(Corner.Banner),
         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
     ) {
         Column(modifier = Modifier.padding(horizontal = 22.dp, vertical = 22.dp)) {

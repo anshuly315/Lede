@@ -1,5 +1,6 @@
 package me.ash.reader.brief.feeds.add
 
+import me.ash.reader.brief.ui.Corner
 import android.content.ClipboardManager
 import android.content.Context
 import androidx.compose.foundation.BorderStroke
@@ -206,7 +207,7 @@ fun AddFeedPage(
 
                     // The one box: search the list, or paste a link / r/name / @channel.
                     Surface(
-                        shape = RoundedCornerShape(28.dp),
+                        shape = RoundedCornerShape(Corner.Tile),
                         color = MaterialTheme.colorScheme.surfaceContainerHigh,
                         modifier = Modifier.fillMaxWidth().height(56.dp),
                     ) {
@@ -427,7 +428,7 @@ private fun CategoryGrid(onPick: (FeedCatalogue.Category?) -> Unit) {
                 row.forEach { (cat, icon) ->
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.weight(1f).clip(RoundedCornerShape(16.dp)).clickable { onPick(cat) }.padding(vertical = 8.dp, horizontal = 2.dp),
+                        modifier = Modifier.weight(1f).clip(RoundedCornerShape(Corner.Small)).clickable { onPick(cat) }.padding(vertical = 8.dp, horizontal = 2.dp),
                     ) {
                         Icon(icon, contentDescription = null, modifier = Modifier.size(30.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant)
                         Spacer(Modifier.height(6.dp))
@@ -490,7 +491,7 @@ private fun Results(
 private fun ResultRow(icon: ImageVector, title: String, subtitle: String, onClick: () -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).clickable(onClick = onClick).padding(vertical = 10.dp, horizontal = 4.dp),
+        modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(Corner.Small)).clickable(onClick = onClick).padding(vertical = 10.dp, horizontal = 4.dp),
     ) {
         Icon(icon, contentDescription = null, modifier = Modifier.size(30.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant)
         Spacer(Modifier.width(16.dp))
@@ -525,10 +526,10 @@ private fun GroupPicker(
     val density = androidx.compose.ui.platform.LocalDensity.current
     Box(modifier = Modifier.onSizeChanged { anchorWidth = with(density) { it.width.toDp() } }) {
         Surface(
-            shape = RoundedCornerShape(14.dp),
+            shape = RoundedCornerShape(Corner.Small),
             color = MaterialTheme.colorScheme.background,
             border = BorderStroke(1.5.dp, MaterialTheme.colorScheme.outline),
-            modifier = Modifier.fillMaxWidth().height(60.dp).clip(RoundedCornerShape(14.dp)).clickable { open = true },
+            modifier = Modifier.fillMaxWidth().height(60.dp).clip(RoundedCornerShape(Corner.Small)).clickable { open = true },
         ) {
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(horizontal = 16.dp)) {
                 Icon(Icons.Rounded.Folder, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)

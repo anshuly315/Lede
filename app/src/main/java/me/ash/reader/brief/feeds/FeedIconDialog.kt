@@ -1,5 +1,6 @@
 package me.ash.reader.brief.feeds
 
+import me.ash.reader.brief.ui.Corner
 import me.ash.reader.brief.ui.InWindowAlertDialog
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -112,7 +113,7 @@ fun FeedIconDialog(
                                 onDismiss()
                             },
                             // The chosen one is a circle in the accent colour; the rest rounded tiles.
-                            shape = if (selected) CircleShape else RoundedCornerShape(12.dp),
+                            shape = if (selected) CircleShape else RoundedCornerShape(Corner.Small),
                             color =
                                 if (selected) MaterialTheme.colorScheme.primary
                                 else MaterialTheme.colorScheme.surfaceContainerHigh,
@@ -164,7 +165,7 @@ fun FeedIconDialog(
                                     isError = false,
                                     interactionSource = interaction,
                                     colors = OutlinedTextFieldDefaults.colors(),
-                                    shape = RoundedCornerShape(14.dp),
+                                    shape = RoundedCornerShape(Corner.Small),
                                 )
                             },
                         )

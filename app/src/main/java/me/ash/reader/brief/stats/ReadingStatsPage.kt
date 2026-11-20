@@ -2,6 +2,7 @@
 
 package me.ash.reader.brief.stats
 
+import me.ash.reader.brief.ui.Corner
 import me.ash.reader.brief.ui.rememberPressFeel
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
@@ -366,9 +367,9 @@ fun ReadingStatsPage(onBack: () -> Unit) {
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
                         }
-                        Switch(
-                            checked = ReadingStats.recapOnHome,
-                            onCheckedChange = { ReadingStats.setRecapOnHome(context, it) },
+                        me.ash.reader.ui.component.base.RYSwitch(
+                            activated = ReadingStats.recapOnHome,
+                            onClick = { ReadingStats.setRecapOnHome(context, !ReadingStats.recapOnHome) },
                         )
                     }
                     Text(
@@ -459,7 +460,7 @@ private fun HeroCard(minutes: Long, daysRead: Int) {
     Surface(
         color = MaterialTheme.colorScheme.primaryContainer,
         contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-        shape = RoundedCornerShape(32.dp),
+        shape = RoundedCornerShape(Corner.Banner),
         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
     ) {
         Row(
@@ -527,7 +528,7 @@ private fun WeekChart(week: List<LocalDate>, today: LocalDate, values: List<Long
     LaunchedEffect(Unit) { grow.animateTo(1f) }
     Surface(
         color = MaterialTheme.colorScheme.surfaceContainerHigh,
-        shape = RoundedCornerShape(28.dp),
+        shape = RoundedCornerShape(Corner.Tile),
         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
         Row(
@@ -695,7 +696,7 @@ private fun SmallTile(
     Surface(
         color = MaterialTheme.colorScheme.secondaryContainer,
         contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-        shape = RoundedCornerShape(24.dp),
+        shape = RoundedCornerShape(Corner.Card),
         modifier = modifier,
     ) {
         Row(
